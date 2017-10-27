@@ -4,7 +4,6 @@
 // Compute locale stats (# missing, # ident, # outdated), show in toolbar
 // Add button to copy over English message
 // Add indicator/tooltips for message statuses (missing, identical, outdated)
-// URL support for locale (e.g. http://127.0.0.1:8080/zh_TW)
 
 qwest.setDefaultDataType('json');
 
@@ -21,7 +20,7 @@ function clone(obj) {
   }
 }
 
-var app = new Vue({
+let app = new Vue({
   el: '#app',
   data: {
     state: null,
@@ -29,14 +28,28 @@ var app = new Vue({
     locale: null,
     messages: null,
     en: null,
-    messageFilter: null
+    messageFilter: null,
+    history: History.createBrowserHistory()
   },
   mounted: function () {
+    const toLocale = location => {
+      let locale = location.hash.slice(1).trim();
+      let validLocales = Object.keys(this.state);
+      return (locale !== '' && validLocales.includes(locale)) ? locale : validLocales[0];
+    }
+
     qwest.get('/state.json').then((_, resp) => {
       this.en = resp['en'];
       delete resp['en'];
       this.state = resp;
-      this.localeId = Object.keys(this.state)[0];
+      this.localeId = toLocale(window.location) || Object.keys(this.state)[0];
+    });
+
+    this.history.listen(location => {
+      let locale = toLocale(location);
+      if (locale) {
+        this.localeId = locale;
+      }
     });
   },
   methods: {
@@ -84,6 +97,7 @@ var app = new Vue({
   },
   watch: {
     localeId(newLocaleId) {
+      this.history.push('#' + newLocaleId);
       this.locale = this.state[this.localeId];
       let messages = this.locale.messages;
       for (let id in this.en.messages) {
