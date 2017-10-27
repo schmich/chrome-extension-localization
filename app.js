@@ -1,7 +1,6 @@
 // TODO
 // combine.rb: Include all locales, not just those that are present (allow users to fill them out).
 // Use localStorage to store changes.
-// Compute locale stats (# missing, # ident, # outdated), show in toolbar
 // Add button to copy over English message
 // Add indicator/tooltips for message statuses (missing, identical, outdated)
 
@@ -35,23 +34,18 @@ let app = new Vue({
   mounted: function () {
     const toLocale = location => {
       let locale = location.hash.slice(1).trim();
-      let validLocales = Object.keys(this.state);
-      return (locale !== '' && validLocales.includes(locale)) ? locale : validLocales[0];
+      let allLocales = Object.keys(this.state);
+      return (locale !== '' && allLocales.includes(locale)) ? locale : allLocales[0];
     }
 
     qwest.get('/state.json').then((_, resp) => {
       this.en = resp['en'];
       delete resp['en'];
       this.state = resp;
-      this.localeId = toLocale(window.location) || Object.keys(this.state)[0];
+      this.localeId = toLocale(window.location);
     });
 
-    this.history.listen(location => {
-      let locale = toLocale(location);
-      if (locale) {
-        this.localeId = locale;
-      }
-    });
+    this.history.listen(location => this.localeId = toLocale(location));
   },
   methods: {
     exportJson() {
@@ -99,6 +93,10 @@ let app = new Vue({
   watch: {
     localeId(newLocaleId) {
       this.history.push('#' + newLocaleId);
+      if (!this.state[newLocaleId].exists) {
+        this.showMissingLocales = true;
+      }
+
       this.locale = this.state[this.localeId];
       let messages = this.locale.messages;
       for (let id in this.en.messages) {

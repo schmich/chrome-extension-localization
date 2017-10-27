@@ -13,21 +13,25 @@
     <div class="toolbar">
       <div>
         <label>
-          Locale:
           <select v-model="localeId">
             <option v-for="(info, locale) in state" v-if="showMissingLocales || info.exists" :value="locale">
               {{ locale }}: {{ info.name }}
             </option>
           </select>
         </label>
-        <label>
+        <label title="Show locales that do not have a messages.json file">
           <input type="checkbox" v-model="showMissingLocales"></input>
-          Show all locales
+          Show missing locales
         </label>
         <label>
           Message ID:
-          <input type="text" v-model="messageFilter"></input>
+          <input type="text" size="15" v-model="messageFilter"></input>
         </label>
+        <span v-if="localeId" class="stats">
+          <span class="stat">Missing: {{ state[localeId].missing.length }}</span>
+          <span class="stat">Outdated: {{ state[localeId].outdated.length }}</span>
+          <span class="stat">Identical: {{ state[localeId].identical.length }}</span>
+        </span>
       </div>
       <button @click="exportJson">Export JSON</button>
     </div>

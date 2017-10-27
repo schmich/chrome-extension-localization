@@ -10,7 +10,7 @@ body, html {
   padding: 10px;
   font-family: sans-serif;
   font-size: 17px;
-  background: #ddd;
+  background: #d7d7d7;
 }
 .toolbar label:not(:first-of-type) {
   margin-left: 20px;
@@ -29,6 +29,12 @@ body, html {
 }
 .toolbar select, .toolbar input {
   font-size: 17px;
+}
+.toolbar .stats {
+  margin-left: 20px;
+}
+.toolbar .stat {
+  margin: 0 10px;
 }
 table {
   width: 100%;
