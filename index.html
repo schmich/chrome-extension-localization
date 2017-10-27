@@ -12,39 +12,48 @@
   <div id="app">
     <div class="toolbar">
       <div>
-        <label>
-          <select v-model="localeId">
-            <option v-for="(info, locale) in state" v-if="showMissingLocales || info.exists" :value="locale">
-              {{ locale }}: {{ info.name }}
-            </option>
-          </select>
-        </label>
+        <select v-model="localeId" title="Current locale">
+          <option v-for="(info, locale) in state" v-if="showMissingLocales || info.exists" :value="locale">
+            {{ locale }}: {{ info.name }}
+          </option>
+        </select>
         <label title="Show locales that do not have a messages.json file">
           <input type="checkbox" v-model="showMissingLocales"></input>
           Show missing locales
         </label>
-        <label>
+        <label title="Filter by message ID (regular expression)">
           Message ID:
           <input type="text" size="15" v-model="messageFilter"></input>
         </label>
         <span v-if="localeId" class="stats">
-          <span class="stat">Missing: {{ state[localeId].missing.length }}</span>
-          <span class="stat">Outdated: {{ state[localeId].outdated.length }}</span>
-          <span class="stat">Identical: {{ state[localeId].identical.length }}</span>
+          <span class="stat" title="Messages that have not yet been translated">
+            <span class="missing">Missing</span> {{ state[localeId].missing.length }}
+          </span>
+          <span class="stat" title="Messages with English counterparts that have been updated since the most recent translation">
+            <span class="outdated">Outdated</span> {{ state[localeId].outdated.length }}
+          </span>
+          <span class="stat" title="Messages that are identical to their English counterparts (not necessarily wrong)">
+            <span class="identical">Identical</span> {{ state[localeId].identical.length }}
+          </span>
         </span>
       </div>
-      <button @click="exportJson">Export JSON</button>
+      <button @click="exportJson" title="Download messages.json for this locale">Export JSON</button>
     </div>
     <table v-if="en && localeId">
       <tr>
         <th>Message ID</th>
         <th>en: English</th>
+        <th>State</th>
         <th>{{ localeId }}: {{ state[localeId].name }}</th>
       </tr>
-      <tr v-for="(info, id) in filter(en.messages, messageFilter)">
+      <tr v-for="(info, id) in filter(en.messages, messageFilter)"
+          :title="locale.identical.includes(id) ? 'This message is identical to its English counterpart; it might not be translated' : (locale.outdated.includes(id) ? 'This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(id) ? 'This message is missing a translation; it should be translated' : ''))"
+          :class="{ identical: locale.identical.includes(id), outdated: locale.outdated.includes(id), missing: locale.missing.includes(id) }">
         <td class="id" :title="info.description">{{ id }}</td>
         <td class="en-message">{{ info.message }}</td>
-        <td :class="{ 'locale-message': true, identical: locale.identical.includes(id), outdated: locale.outdated.includes(id), missing: locale.missing.includes(id) }">
+        <td class="state">
+        </td>
+        <td class="locale-message">
           <textarea v-model="locale.messages[id].message"></textarea>
         </td>
       </tr>

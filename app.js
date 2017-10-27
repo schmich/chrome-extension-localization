@@ -1,8 +1,5 @@
 // TODO
-// combine.rb: Include all locales, not just those that are present (allow users to fill them out).
 // Use localStorage to store changes.
-// Add button to copy over English message
-// Add indicator/tooltips for message statuses (missing, identical, outdated)
 
 qwest.setDefaultDataType('json');
 

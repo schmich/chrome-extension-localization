@@ -10,9 +10,9 @@ body, html {
   padding: 10px;
   font-family: sans-serif;
   font-size: 17px;
-  background: #d7d7d7;
+  background: #e5e5e5;
 }
-.toolbar label:not(:first-of-type) {
+.toolbar label {
   margin-left: 20px;
 }
 .toolbar button {
@@ -35,6 +35,13 @@ body, html {
 }
 .toolbar .stat {
   margin: 0 10px;
+  cursor: help;
+}
+.toolbar .stat span {
+  padding: 3px 5px;
+	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 }
 table {
   width: 100%;
@@ -60,7 +67,10 @@ td.id {
 }
 td.en-message {
   white-space: pre-line;
-  width: 40%;
+  width: 30%;
+}
+td.state {
+  width: 30px;
 }
 td.locale-message {
   width: auto;
@@ -81,12 +91,29 @@ td.locale-message textarea {
   right: 0;
   width: 100%;
 }
-td.missing textarea {
-  background: #ffcccc;
+td.state {
+  font-family: monospace;
+  font-size: 15px;
+  text-align: center;
 }
-td.identical textarea {
-  background: #ffffcc;
+tr.missing td.state, span.missing {
+  background: #ffaaaa;
 }
-td.outdated textarea {
-  background: #eee;
+tr.missing td.state:after {
+  content: 'MISS';
+}
+tr.identical td.state, span.identical {
+  background: #ffffaa;
+}
+tr.identical td.state:after {
+  content: 'SAME';
+}
+tr.outdated td.state, span.outdated {
+  background: #ccc;
+}
+tr.outdated td.state:after {
+  content: 'OLD';
+}
+tr.missing td.state, tr.identical td.state, tr.outdated td.state {
+  cursor: help;
 }
