@@ -102,6 +102,16 @@ let app = new Vue({
           messages[id].message = '';
         }
       }
+
+      // Update tooltips.
+      setTimeout(() => {
+        tippy('td.state, .stat', {
+          arrow: true,
+          duration: 0,
+          distance: 15,
+          animation: null
+        });
+      }, 0);
     }
   }
 });

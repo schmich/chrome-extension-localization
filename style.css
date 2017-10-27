@@ -117,3 +117,9 @@ tr.outdated td.state:after {
 tr.missing td.state, tr.identical td.state, tr.outdated td.state {
   cursor: help;
 }
+.tippy-tooltip {
+  font-size: 15px;
+  font-family: sans-serif;
+  line-height: 150%;
+  font-weight: 600;
+}

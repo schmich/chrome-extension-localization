@@ -2,10 +2,12 @@
 <html>
 <head>
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link href="/style.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/tippy.css">
+  <link rel="stylesheet" href="/style.css">
   <script type="text/javascript" src="/qwest.js"></script>
   <script type="text/javascript" src="/history.js"></script>
   <script type="text/javascript" src="/vue.js"></script>
+  <script type="text/javascript"src="/tippy.js"></script>
   <title>Localization</title>
 </head>
 <body>
@@ -26,13 +28,13 @@
           <input type="text" size="15" v-model="messageFilter"></input>
         </label>
         <span v-if="localeId" class="stats">
-          <span class="stat" title="Messages that have not yet been translated">
+          <span class="stat" title="Messages that have not been translated; they need translating">
             <span class="missing">Missing</span> {{ state[localeId].missing.length }}
           </span>
-          <span class="stat" title="Messages with English counterparts that have been updated since the most recent translation">
+          <span class="stat" title="Messages with English counterparts that changed since translation; the translation might need updating">
             <span class="outdated">Outdated</span> {{ state[localeId].outdated.length }}
           </span>
-          <span class="stat" title="Messages that are identical to their English counterparts (not necessarily wrong)">
+          <span class="stat" title="Messages that are identical to their English counterparts; they might need translating">
             <span class="identical">Identical</span> {{ state[localeId].identical.length }}
           </span>
         </span>
@@ -46,13 +48,10 @@
         <th>State</th>
         <th>{{ localeId }}: {{ state[localeId].name }}</th>
       </tr>
-      <tr v-for="(info, id) in filter(en.messages, messageFilter)"
-          :title="locale.identical.includes(id) ? 'This message is identical to its English counterpart; it might not be translated' : (locale.outdated.includes(id) ? 'This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(id) ? 'This message is missing a translation; it should be translated' : ''))"
-          :class="{ identical: locale.identical.includes(id), outdated: locale.outdated.includes(id), missing: locale.missing.includes(id) }">
+      <tr v-for="(info, id) in filter(en.messages, messageFilter)" :class="{ identical: locale.identical.includes(id), outdated: locale.outdated.includes(id), missing: locale.missing.includes(id) }">
         <td class="id" :title="info.description">{{ id }}</td>
         <td class="en-message">{{ info.message }}</td>
-        <td class="state">
-        </td>
+        <td class="state" :title="locale.identical.includes(id) ? 'This message is identical to its English counterpart; it might need translating' : (locale.outdated.includes(id) ? 'This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(id) ? 'This message has not been translated; it needs translating' : ''))"></td>
         <td class="locale-message">
           <textarea v-model="locale.messages[id].message"></textarea>
         </td>
