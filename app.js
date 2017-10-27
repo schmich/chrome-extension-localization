@@ -67,7 +67,7 @@ let app = new Vue({
       let json = JSON.stringify(messages, null, '    ');
       let link = document.createElement('a');
       link.href = 'data:application/json,' + encodeURIComponent(json);
-      link.download = 'history.json';
+      link.download = 'messages.json';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
