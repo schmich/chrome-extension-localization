@@ -19,7 +19,7 @@ function clone(obj) {
 let app = new Vue({
   el: '#app',
   data: {
-    state: null,
+    status: null,
     localeId: null,
     locale: null,
     messages: null,
@@ -31,14 +31,14 @@ let app = new Vue({
   mounted: function () {
     const toLocale = location => {
       let locale = location.hash.slice(1).trim();
-      let allLocales = Object.keys(this.state);
+      let allLocales = Object.keys(this.status);
       return (locale !== '' && allLocales.includes(locale)) ? locale : allLocales[0];
     }
 
-    qwest.get('/state.json').then((_, resp) => {
+    qwest.get('/status.json').then((_, resp) => {
       this.en = resp['en'];
       delete resp['en'];
-      this.state = resp;
+      this.status = resp;
       this.localeId = toLocale(window.location);
     });
 
@@ -90,11 +90,11 @@ let app = new Vue({
   watch: {
     localeId(newLocaleId) {
       this.history.push('#' + newLocaleId);
-      if (!this.state[newLocaleId].exists) {
+      if (!this.status[newLocaleId].exists) {
         this.showMissingLocales = true;
       }
 
-      this.locale = this.state[this.localeId];
+      this.locale = this.status[this.localeId];
       let messages = this.locale.messages;
       for (let id in this.en.messages) {
         if (!messages[id]) {

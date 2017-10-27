@@ -15,7 +15,7 @@
     <div class="toolbar">
       <div>
         <select v-model="localeId" title="Current locale">
-          <option v-for="(info, locale) in state" v-if="showMissingLocales || info.exists" :value="locale">
+          <option v-for="(info, locale) in status" v-if="showMissingLocales || info.exists" :value="locale">
             {{ locale }}: {{ info.name }}
           </option>
         </select>
@@ -29,13 +29,13 @@
         </label>
         <span v-if="localeId" class="stats">
           <span class="stat" title="Messages that have not been translated; they need translating">
-            <span class="missing">Missing</span> {{ state[localeId].missing.length }}
+            <span class="missing">Missing</span> {{ status[localeId].missing.length }}
           </span>
           <span class="stat" title="Messages with English counterparts that changed since translation; the translation might need updating">
-            <span class="outdated">Outdated</span> {{ state[localeId].outdated.length }}
+            <span class="outdated">Outdated</span> {{ status[localeId].outdated.length }}
           </span>
           <span class="stat" title="Messages that are identical to their English counterparts; they might need translating">
-            <span class="identical">Identical</span> {{ state[localeId].identical.length }}
+            <span class="identical">Identical</span> {{ status[localeId].identical.length }}
           </span>
         </span>
       </div>
@@ -46,7 +46,7 @@
         <th>Message ID</th>
         <th>en: English</th>
         <th>State</th>
-        <th>{{ localeId }}: {{ state[localeId].name }}</th>
+        <th>{{ localeId }}: {{ status[localeId].name }}</th>
       </tr>
       <tr v-for="(info, id) in filter(en.messages, messageFilter)" :class="{ identical: locale.identical.includes(id), outdated: locale.outdated.includes(id), missing: locale.missing.includes(id) }">
         <td class="id" :title="info.description">{{ id }}</td>
