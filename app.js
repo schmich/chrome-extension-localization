@@ -29,6 +29,7 @@ let app = new Vue({
     messages: null,
     en: null,
     messageFilter: null,
+    showMissingLocales: false,
     history: History.createBrowserHistory()
   },
   mounted: function () {

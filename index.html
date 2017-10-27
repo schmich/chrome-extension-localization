@@ -15,8 +15,14 @@
         <label>
           Locale:
           <select v-model="localeId">
-            <option v-for="(info, locale) in state">{{ locale }}</option>
+            <option v-for="(info, locale) in state" v-if="showMissingLocales || info.exists" :value="locale">
+              {{ locale }}: {{ info.name }}
+            </option>
           </select>
+        </label>
+        <label>
+          <input type="checkbox" v-model="showMissingLocales"></input>
+          Show all locales
         </label>
         <label>
           Message ID:
@@ -28,8 +34,8 @@
     <table v-if="en && localeId">
       <tr>
         <th>Message ID</th>
-        <th>English</th>
-        <th>{{ localeId }} </th>
+        <th>en: English</th>
+        <th>{{ localeId }}: {{ state[localeId].name }}</th>
       </tr>
       <tr v-for="(info, id) in filter(en.messages, messageFilter)">
         <td class="id" :title="info.description">{{ id }}</td>

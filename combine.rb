@@ -1,15 +1,76 @@
 require 'json'
 require 'set'
 
-def message_ordinals(locale, commits)
-  file = "src/_locales/#{locale}/messages.json"
-  keys = JSON.parse(File.read(file)).keys
+$locales  = {
+  'ar' => 'Arabic',
+  'am' => 'Amharic',
+  'bg' => 'Bulgarian',
+  'bn' => 'Bengali',
+  'ca' => 'Catalan',
+  'cs' => 'Czech',
+  'da' => 'Danish',
+  'de' => 'German',
+  'el' => 'Greek',
+  'en' => 'English',
+  'en_GB' => 'English (Great Britain)',
+  'en_US' => 'English (USA)',
+  'es' => 'Spanish',
+  'es_419' => 'Spanish (LatAm/Carib.)',
+  'et' => 'Estonian',
+  'fa' => 'Persian',
+  'fi' => 'Finnish',
+  'fil' => 'Filipino',
+  'fr' => 'French',
+  'gu' => 'Gujarati',
+  'he' => 'Hebrew',
+  'hi' => 'Hindi',
+  'hr' => 'Croatian',
+  'hu' => 'Hungarian',
+  'id' => 'Indonesian',
+  'it' => 'Italian',
+  'ja' => 'Japanese',
+  'kn' => 'Kannada',
+  'ko' => 'Korean',
+  'lt' => 'Lithuanian',
+  'lv' => 'Latvian',
+  'ml' => 'Malayalam',
+  'mr' => 'Marathi',
+  'ms' => 'Malay',
+  'nl' => 'Dutch',
+  'nb' => 'Norwegian',
+  'pl' => 'Polish',
+  'pt_PT' => 'Portuguese (Portugal)',
+  'pt_BR' => 'Portuguese (Brazil)',
+  'ro' => 'Romanian',
+  'ru' => 'Russian',
+  'sk' => 'Slovak',
+  'sl' => 'Slovenian',
+  'sr' => 'Serbian',
+  'sv' => 'Swedish',
+  'sw' => 'Swahili',
+  'ta' => 'Tamil',
+  'te' => 'Telugu',
+  'th' => 'Thai',
+  'tr' => 'Turkish',
+  'uk' => 'Ukrainian',
+  'vi' => 'Vietnamese',
+  'zh_CN' => 'Chinese (China)',
+  'zh_TW' => 'Chinese (Taiwan)'
+}
 
+def message_ordinals(locale, commits)
+  json = load_messages(locale)
+  return {} if json.nil?
+
+  file = File.join('src', '_locales', locale, 'messages.json')
   lines = `git blame -c #{file}`.lines
+
+  keys = json.keys
   cur = keys.shift
 
   ordinals = {}
   lines.each do |line|
+    break if cur.nil?
     if line =~ /^(.*?)\s+\(.*?\)\s+\"(#{cur})\":.*/
       commit = $1.strip.slice(0, 7)
       ordinals[$2.strip] = commits.index(commit)
@@ -21,7 +82,9 @@ def message_ordinals(locale, commits)
 end
 
 def load_messages(locale)
-  JSON.parse(File.read(File.join("src/_locales/#{locale}/messages.json")))
+  file = File.join('src', '_locales', locale, 'messages.json')
+  return nil if !File.exist?(file)
+  JSON.parse(File.read(file))
 end
 
 def commits_by_age
@@ -35,19 +98,23 @@ def translation_status
   en_messages = load_messages('en')
   en_ordinals = message_ordinals('en', commits)
 
-  Dir['src/_locales/*'].each do |entry|
-    locale = entry.split('/').last
-    next if ['en', 'en_GB'].include?(locale)
+  $locales.each do |locale, name|
+    next if ['en', 'en_GB', 'en_US'].include?(locale)
 
     ordinals = message_ordinals(locale, commits)
     messages = load_messages(locale)
 
+    exists = !messages.nil?
+    messages ||= {}
+
     outdated = messages.select { |id, _| ordinals[id] < en_ordinals[id] }.map(&:first)
-    missing = Set.new(en_messages.keys) - Set.new(messages.keys)
+    missing = (Set.new(en_messages.keys) - Set.new(messages.keys)).to_a
     identical = en_messages.merge(messages) { |_, l, r| l == r }.select { |_, v| v.is_a?(TrueClass) }.keys
 
     status[locale] = {
-      missing: missing.to_a,
+      name: $locales[locale],
+      exists: exists,
+      missing: missing,
       outdated: outdated,
       identical: identical,
       messages: messages
@@ -55,6 +122,7 @@ def translation_status
   end
 
   status['en'] = {
+    name: $locales['en'],
     messages: en_messages
   }
 
