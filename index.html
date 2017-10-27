@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link href="/style.css" rel="stylesheet">
+  <script type="text/javascript" src="/qwest.min.js"></script>
+  <script type="text/javascript" src="/vue.js"></script>
+  <title>Localization</title>
+</head>
+<body>
+  <div id="app">
+    <div class="toolbar">
+      <div>
+        <label>
+          Locale:
+          <select v-model="localeId">
+            <option v-for="(info, locale) in state">{{ locale }}</option>
+          </select>
+        </label>
+        <label>
+          Message ID:
+          <input type="text" v-model="messageFilter"></input>
+        </label>
+      </div>
+      <button @click="exportJson">Export JSON</button>
+    </div>
+    <table v-if="en && localeId">
+      <tr>
+        <th>Message ID</th>
+        <th>English</th>
+        <th>{{ localeId }} </th>
+      </tr>
+      <tr v-for="(info, id) in filter(en.messages, messageFilter)">
+        <td class="id" :title="info.description">{{ id }}</td>
+        <td class="en-message">{{ info.message }}</td>
+        <td :class="{ 'locale-message': true, identical: locale.identical.includes(id), outdated: locale.outdated.includes(id), missing: locale.missing.includes(id) }">
+          <textarea v-model="locale.messages[id].message"></textarea>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <script type="text/javascript" src="/app.js"></script>
+</body>
+</html>
