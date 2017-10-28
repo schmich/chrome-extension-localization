@@ -33,7 +33,7 @@ let app = new Vue({
       return (locale !== '' && allIds.includes(locale)) ? locale : allIds[0];
     }
 
-    qwest.get('../../status.json').then((_, resp) => {
+    qwest.get('../../locales.json').then((_, resp) => {
       let locales = resp.locales;
       this.en = locales['en'];
       delete locales['en'];
