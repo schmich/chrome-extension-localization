@@ -92,7 +92,7 @@ let app = new Vue({
     localeId(newLocaleId) {
       this.tippy.destroyAll();
 
-      this.history.push('#' + newLocaleId);
+      this.history.replace('#' + newLocaleId);
       if (!this.status[newLocaleId].exists) {
         this.showMissingLocales = true;
       }
