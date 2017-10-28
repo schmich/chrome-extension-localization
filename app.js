@@ -26,6 +26,7 @@ let app = new Vue({
     en: null,
     messageFilter: null,
     showMissingLocales: false,
+    tippy: tippy(),
     history: History.createBrowserHistory()
   },
   mounted: function () {
@@ -89,6 +90,8 @@ let app = new Vue({
   },
   watch: {
     localeId(newLocaleId) {
+      this.tippy.destroyAll();
+
       this.history.push('#' + newLocaleId);
       if (!this.status[newLocaleId].exists) {
         this.showMissingLocales = true;
@@ -104,14 +107,14 @@ let app = new Vue({
       }
 
       // Update tooltips.
-      setTimeout(() => {
-        tippy('td.state, .stat', {
+      Vue.nextTick(() => {
+        this.tippy = tippy('td.state, .stat', {
           arrow: true,
           duration: 0,
           distance: 15,
           animation: null
         });
-      }, 0);
+      });
     }
   }
 });
