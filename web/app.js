@@ -22,7 +22,7 @@ let app = new Vue({
     messages: null,
     en: null,
     messageFilter: null,
-    showMissingLocales: false,
+    showMissingLocales: store.get('show-missing-locales'),
     tippy: tippy(),
     history: History.createBrowserHistory()
   },
@@ -37,7 +37,11 @@ let app = new Vue({
       this.en = resp['en'];
       delete resp['en'];
       this.status = resp;
-      this.localeId = toLocale(window.location);
+
+      this.localeId = store.get('locale-id');
+      if (!this.localeId || window.location.hash !== '') {
+        this.localeId = toLocale(window.location);
+      }
     });
 
     this.history.listen(location => this.localeId = toLocale(location));
@@ -86,14 +90,23 @@ let app = new Vue({
   computed: {
   },
   watch: {
-    localeId(newLocaleId) {
+    showMissingLocales(newMissing) {
+      store.set('show-missing-locales', newMissing);
+    },
+    localeId(newId) {
+      // Destroy existing tooltips.
       this.tippy.destroyAll();
 
-      this.history.replace('#' + newLocaleId);
-      if (!this.status[newLocaleId].exists) {
+      // Update window location.
+      this.history.replace('#' + newId);
+      if (!this.status[newId].exists) {
         this.showMissingLocales = true;
       }
 
+      // Persist locale setting.
+      store.set('locale-id', newId);
+
+      // Copy missing messages from en.
       this.locale = this.status[this.localeId];
       let messages = this.locale.messages;
       for (let id in this.en.messages) {
