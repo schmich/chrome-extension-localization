@@ -2,7 +2,8 @@
 
 set -euf -o pipefail
 
-cd $(dirname $0)/..
+# Return to origin repo's deploy dir.
+cd $(dirname $0)/../..
 
 chmod 400 deploy_key
 eval `ssh-agent -s`
@@ -15,7 +16,7 @@ repo="git@github.com:$user/$project-localization"
 sha=`git rev-parse --verify HEAD`
 
 git clone --depth 1 "$repo" out
-ruby chrome-extension-localization/gen-status.rb > out/status.json
+ruby chrome-extension-localization/deploy/gen-status.rb > out/status.json
 
 cd out && git add status.json
 if [ -z "$(git diff --cached)" ]; then
