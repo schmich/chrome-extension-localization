@@ -16,7 +16,7 @@ function clone(obj) {
 let app = new Vue({
   el: '#app',
   data: {
-    status: null,
+    locales: null,
     localeId: null,
     locale: null,
     messages: null,
@@ -29,14 +29,15 @@ let app = new Vue({
   mounted: function () {
     const toLocale = location => {
       let locale = location.hash.slice(1).trim();
-      let allLocales = Object.keys(this.status);
-      return (locale !== '' && allLocales.includes(locale)) ? locale : allLocales[0];
+      let allIds = Object.keys(this.locales);
+      return (locale !== '' && allIds.includes(locale)) ? locale : allIds[0];
     }
 
     qwest.get('../../status.json').then((_, resp) => {
-      this.en = resp['en'];
-      delete resp['en'];
-      this.status = resp;
+      let locales = resp.locales;
+      this.en = locales['en'];
+      delete locales['en'];
+      this.locales = locales;
 
       this.localeId = store.get('locale-id');
       if (!this.localeId || window.location.hash !== '') {
@@ -99,7 +100,7 @@ let app = new Vue({
 
       // Update window location.
       this.history.replace('#' + newId);
-      if (!this.status[newId].exists) {
+      if (!this.locales[newId].exists) {
         this.showMissingLocales = true;
       }
 
@@ -107,7 +108,7 @@ let app = new Vue({
       store.set('locale-id', newId);
 
       // Copy missing messages from en.
-      this.locale = this.status[this.localeId];
+      this.locale = this.locales[this.localeId];
       let messages = this.locale.messages;
       for (let id in this.en.messages) {
         if (!messages[id]) {
