@@ -16,7 +16,7 @@ repo="git@github.com:$user/$project-localization"
 sha=`git rev-parse --verify HEAD`
 
 git clone --depth 1 "$repo" out
-ruby chrome-extension-localization/deploy/gen-locales > out/locales.json
+ruby chrome-extension-localization/deploy/gen-locales.rb > out/locales.json
 
 cd out && git add locales.json
 if [ -z "$(git diff --cached)" ]; then
