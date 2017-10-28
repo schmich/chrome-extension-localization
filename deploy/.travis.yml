@@ -1,0 +1,14 @@
+script: true
+env:
+  global:
+  - COMMIT_AUTHOR_NAME: "'Your Name'"
+  - COMMIT_AUTHOR_EMAIL: you@example.com
+  - LOCALES_PATH: src/_locales
+deploy:
+  provider: script
+  script: bash ./deploy/chrome-extension-localization/deploy.sh
+  skip_cleanup: true
+  on:
+    branch: master
+before_install:
+- git submodule update --init --recursive
