@@ -1,5 +1,6 @@
 require 'json'
 require 'set'
+require 'digest/sha2'
 
 $locales  = {
   'ar' => 'Arabic',
@@ -98,7 +99,7 @@ def commits_by_age
   `git log --pretty=%h`.lines.map(&:strip).select { |line| !line.empty? }.reverse
 end
 
-def translation_status
+def locale_status
   status = {}
   commits = commits_by_age
 
@@ -136,4 +137,10 @@ def translation_status
   status
 end
 
-puts JSON.pretty_generate(translation_status)
+locales = locale_status()
+content = JSON.dump(locales)
+
+puts JSON.dump({
+  hash: Digest::SHA2.hexdigest(content),
+  locales: locales
+})
