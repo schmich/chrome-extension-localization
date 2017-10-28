@@ -1,6 +1,3 @@
-// TODO
-// Use localStorage to store changes.
-
 qwest.setDefaultDataType('json');
 
 // Deep clone an object. Assumes only simple types and object aggregates of simple types.
