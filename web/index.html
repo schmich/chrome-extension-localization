@@ -52,7 +52,7 @@
       <tr v-for="(info, id) in filter(en.messages, messageFilter)" :class="{ identical: locale.identical.includes(id), outdated: locale.outdated.includes(id), missing: locale.missing.includes(id) }">
         <td class="id" :title="info.description">{{ id }}</td>
         <td class="en-message">{{ info.message }}</td>
-        <td class="state" :title="locale.identical.includes(id) ? 'This message is identical to its English counterpart; it might need translating' : (locale.outdated.includes(id) ? 'This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(id) ? 'This message has not been translated; it needs translating' : ''))"></td>
+        <td class="state" :title="locale.identical.includes(id) ? 'Identical: This message is the same as its English counterpart; it might need translating' : (locale.outdated.includes(id) ? 'Outdated: This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(id) ? 'Missing: This message has not been translated; it needs translating' : ''))"></td>
         <td class="locale-message">
           <textarea v-model="locale.messages[id].message"></textarea>
         </td>

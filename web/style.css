@@ -106,13 +106,13 @@ tr.identical td.state, span.identical {
   background: #ffffaa;
 }
 tr.identical td.state:after {
-  content: 'SAME';
+  content: 'IDEN';
 }
 tr.outdated td.state, span.outdated {
   background: #ccc;
 }
 tr.outdated td.state:after {
-  content: 'OLD';
+  content: 'OUTD';
 }
 tr.missing td.state, tr.identical td.state, tr.outdated td.state {
   cursor: help;
