@@ -58,11 +58,18 @@ $locales  = {
   'zh_TW' => 'Chinese (Taiwan)'
 }
 
+def messages_file(locale)
+  locales_path = ENV['LOCALES_PATH']
+  raise 'LOCALES_PATH is not defined.' if locales_path.nil?
+  root = `git rev-parse --show-toplevel`.strip
+  File.join(root, locales_path, locale, 'messages.json')
+end
+
 def message_ordinals(locale, commits)
   json = load_messages(locale)
   return {} if json.nil?
 
-  file = File.join('src', '_locales', locale, 'messages.json')
+  file = messages_file(locale)
   lines = `git blame -c #{file}`.lines
 
   keys = json.keys
@@ -82,7 +89,7 @@ def message_ordinals(locale, commits)
 end
 
 def load_messages(locale)
-  file = File.join('src', '_locales', locale, 'messages.json')
+  file = messages_file(locale)
   return nil if !File.exist?(file)
   JSON.parse(File.read(file))
 end
