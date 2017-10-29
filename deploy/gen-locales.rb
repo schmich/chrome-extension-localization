@@ -117,7 +117,7 @@ def locale_status
 
     outdated = messages.select { |id, _| ordinals[id] < en_ordinals[id] }.map(&:first)
     missing = (Set.new(en_messages.keys) - Set.new(messages.keys)).to_a
-    identical = en_messages.merge(messages) { |_, l, r| l == r }.select { |_, v| v.is_a?(TrueClass) }.keys
+    identical = en_messages.merge(messages) { |_, l, r| l['message'] == r['message'] }.select { |_, v| v.is_a?(TrueClass) }.keys
 
     status[locale] = {
       name: $locales[locale],
