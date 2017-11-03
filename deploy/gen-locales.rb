@@ -116,6 +116,14 @@ def locale_status
     messages = load_messages(locale)
 
     exists = !messages.nil?
+    if !exists
+      status[locale] = {
+        name: $locales[locale],
+        exists: false
+      }
+      next
+    end
+
     messages ||= {}
 
     outdated = messages.select { |id, _|
@@ -136,16 +144,19 @@ def locale_status
       (messages[id] || {})['message']
     end
 
+    missing = message_array.each_with_index.map { |message, i| message.nil? ? i : nil }.compact
+
     status[locale] = {
       name: $locales[locale],
       exists: exists,
+      missing: missing,
       outdated: outdated,
       identical: identical,
       messages: message_array
     }
   end
 
-  [:exists, :outdated, :identical].each { |key| status['en'].delete(key) }
+  [:outdated, :identical].each { |key| status['en'].delete(key) }
 
   status
 end
