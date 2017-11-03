@@ -106,8 +106,11 @@ def locale_status
   en_messages = load_messages('en')
   en_ordinals = message_ordinals('en', commits)
 
+  id_to_index = en_messages.keys.zip((0..en_messages.keys.length).to_a).to_h
+  index_to_id = id_to_index.invert
+
   $locales.each do |locale, name|
-    next if ['en', 'en_GB', 'en_US'].include?(locale)
+    next if ['en_GB', 'en_US'].include?(locale)
 
     ordinals = message_ordinals(locale, commits)
     messages = load_messages(locale)
@@ -115,32 +118,54 @@ def locale_status
     exists = !messages.nil?
     messages ||= {}
 
-    outdated = messages.select { |id, _| ordinals[id] < en_ordinals[id] }.map(&:first)
-    missing = (Set.new(en_messages.keys) - Set.new(messages.keys)).to_a
-    identical = en_messages.merge(messages) { |_, l, r| l['message'] == r['message'] }.select { |_, v| v.is_a?(TrueClass) }.keys
+    outdated = messages.select { |id, _|
+      ordinals[id] < en_ordinals[id]
+    }.map { |e|
+      id_to_index[e.first]
+    }
+
+    identical = en_messages.merge(messages) { |_, l, r|
+      l['message'] == r['message']
+    }.select { |_, v|
+      v.is_a?(TrueClass)
+    }.keys.map { |e|
+      id_to_index[e]
+    }
+
+    message_array = !exists ? [] : index_to_id.map do |index, id|
+      (messages[id] || {})['message']
+    end
 
     status[locale] = {
       name: $locales[locale],
       exists: exists,
-      missing: missing,
       outdated: outdated,
       identical: identical,
-      messages: messages
+      messages: message_array
     }
   end
 
-  status['en'] = {
-    name: $locales['en'],
-    messages: en_messages
-  }
+  [:exists, :outdated, :identical].each { |key| status['en'].delete(key) }
 
   status
 end
 
+def messages_template
+  entries = load_messages('en')
+  entries.each do |id, entry|
+    entry.delete('message')
+  end
+  entries.map do |id, entry|
+    { 'id' => id }.merge(entry)
+  end
+end
+
 locales = locale_status()
-content = JSON.dump(locales)
+template = messages_template()
+content = JSON.dump({ locales: locales, template: template })
 
 puts JSON.dump({
   hash: Digest::SHA2.hexdigest(content),
-  locales: locales
+  locales: locales,
+  template: template
 })
