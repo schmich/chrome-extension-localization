@@ -53,8 +53,6 @@ body, html {
 .messages {
   display: grid;
   grid-template-columns: auto 30fr 80px 70fr;
-  align-items: stretch;
-  border-collapse: collapse;
   grid-auto-rows: auto;
 }
 .cell {
@@ -64,6 +62,7 @@ body, html {
   border-style: solid;
   border-left-color: #e7e7e7;
   border-left-width: 1px;
+  box-sizing: border-box;
 }
 .cell:nth-child(5n + 5) {
   border-top-width: 1px;
@@ -79,8 +78,15 @@ body, html {
 .description {
   grid-column: 1 / span 4;
   background: #f7f7f7;
-  padding: 10px;
-  color: #555;
+  padding: 12px;
+  color: #444;
+}
+.example {
+  font-style: italic;
+}
+.example strong {
+  font-style: normal;
+  font-weight: bold;
 }
 .id {
   font-family: Monaco, Consolas, 'Courier New';
@@ -90,15 +96,21 @@ body, html {
   white-space: pre-line;
 }
 .locale-message {
-  padding: 3px 6px;
   margin: 0;
-  box-sizing: border-box;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+.locale-message textarea {
+  border: 0;
   outline: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
   font-family: serif;
   font-size: 16px;
-  min-height: 0;
 }
-.locale-message:focus {
+.locale-message textarea:focus {
   background: #fffff0;
 }
 .state {
@@ -112,20 +124,20 @@ body, html {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.state.missing, span.missing {
+.missing {
   background: #ffaaaa;
+}
+.outdated {
+  background: #aaaaff;
 }
 .state.missing:after {
   content: 'MISS';
 }
-.state.identical, span.identical {
+.identical {
   background: #ffffaa;
 }
 .state.identical:after {
   content: 'IDEN';
-}
-.state.outdated, span.outdated {
-  background: #ccc;
 }
 .state.outdated:after {
   content: 'OUTD';

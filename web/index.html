@@ -56,7 +56,10 @@
       <div class="cell">{{ localeId }}: {{ locale.name }}</div>
       <template v-for="(item, index) in state.template">
         <div class="cell description">
-          {{ item['description'] }}
+          {{ item.description }}
+          <span class="example" v-if="item.placeholders">
+            <strong>Example:</strong> {{ substitute(state.locales.en.messages[index], item.placeholders) }}
+          </span>
         </div>
         <div class="cell id">{{ item['id'] }}</div>
         <div class="cell en-message">{{ state.locales.en.messages[index] }}</div>
@@ -64,7 +67,9 @@
           :class="{ identical: locale.identical.includes(index), outdated: locale.outdated.includes(index), missing: locale.missing.includes(index) }"
           :title="locale.identical.includes(index) ? 'Identical: This message is the same as its English counterpart; it might need translating' : (locale.outdated.includes(index) ? 'Outdated: This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(index) ? 'Missing: This message has not been translated; it needs translating' : ''))">
         </div>
-        <textarea rows="1" class="cell locale-message" v-model="locale.messages[index]"></textarea>
+        <div class="cell locale-message">
+          <textarea rows="1" v-model="locale.messages[index]"></textarea>
+        </div>
       </template>
     </div>
   </div>

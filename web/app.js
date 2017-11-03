@@ -140,6 +140,14 @@ let app = new Vue({
       }
 
       this.localeId = id || store.get('locale-id') || allIds[0];
+    },
+    substitute(message, placeholders) {
+      let result = message;
+      for (let name in placeholders) {
+        let example = placeholders[name].example;
+        result = result.replace('$' + name + '$', example);
+      }
+      return result;
     }
   },
   computed: {
