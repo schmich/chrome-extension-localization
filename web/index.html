@@ -13,11 +13,21 @@
   <title>Localization</title>
 </head>
 <body>
-  <div id="app">
+  <div id="app" v-cloak>
+    <div class="popup" v-if="showUpdate">
+      New translations are available. Load them now? <strong>You will lose any work in progress.</strong>
+      <div>
+        <button @click.prevent="loadUpdate()">Load Translations</button>
+        <button @click.prevent="hideUpdate()">Dismiss For Now</button>
+      </div>
+    </div>
+    <div class="popup success" v-if="showUpdated">
+      New translations loaded.
+    </div>
     <div class="toolbar">
       <div>
-        <select v-model="localeId" title="Current locale">
-          <option v-for="(info, locale) in locales" v-if="showMissingLocales || info.exists" :value="locale">
+        <select v-model="localeId" title="Current locale" v-if="state">
+          <option v-for="(info, locale) in state.locales" v-if="(showMissingLocales || info.exists) && (locale != 'en')" :value="locale">
             {{ locale }}: {{ info.name }}
           </option>
         </select>
@@ -25,37 +35,33 @@
           <input type="checkbox" v-model="showMissingLocales"></input>
           Show missing locales
         </label>
-        <label title="Filter by message ID (regular expression)">
-          Message ID:
-          <input type="text" size="15" v-model="messageFilter"></input>
-        </label>
         <span v-if="localeId" class="stats">
           <span class="stat" title="Messages that have not been translated; they need translating">
-            <span class="missing">Missing</span> {{ locales[localeId].missing.length }}
+            <span class="missing">Missing</span> {{ locale.missing.length }}
           </span>
           <span class="stat" title="Messages with English counterparts that changed since translation; the translation might need updating">
-            <span class="outdated">Outdated</span> {{ locales[localeId].outdated.length }}
+            <span class="outdated">Outdated</span> {{ locale.outdated.length }}
           </span>
           <span class="stat" title="Messages that are identical to their English counterparts; they might need translating">
-            <span class="identical">Identical</span> {{ locales[localeId].identical.length }}
+            <span class="identical">Identical</span> {{ locale.identical.length }}
           </span>
         </span>
       </div>
       <button @click="exportJson" title="Download messages.json for this locale">Export JSON</button>
     </div>
-    <table v-if="en && localeId">
+    <table v-if="state && localeId">
       <tr>
         <th>Message ID</th>
         <th>en: English</th>
         <th>State</th>
-        <th>{{ localeId }}: {{ locales[localeId].name }}</th>
+        <th>{{ localeId }}: {{ state.locales[localeId].name }}</th>
       </tr>
-      <tr v-for="(info, id) in filter(en.messages, messageFilter)" :class="{ identical: locale.identical.includes(id), outdated: locale.outdated.includes(id), missing: locale.missing.includes(id) }">
-        <td class="id" :title="info.description">{{ id }}</td>
-        <td class="en-message">{{ info.message }}</td>
-        <td class="state" :title="locale.identical.includes(id) ? 'Identical: This message is the same as its English counterpart; it might need translating' : (locale.outdated.includes(id) ? 'Outdated: This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(id) ? 'Missing: This message has not been translated; it needs translating' : ''))"></td>
+      <tr v-for="(item, index) in state.template" :class="{ identical: locale.identical.includes(index), outdated: locale.outdated.includes(index), missing: locale.missing.includes(index) }">
+        <td class="id">{{ item['id'] }}</td>
+        <td class="en-message">{{ state.locales['en']['messages'][index] }}</td>
+        <td class="state" :title="locale.identical.includes(index) ? 'Identical: This message is the same as its English counterpart; it might need translating' : (locale.outdated.includes(index) ? 'Outdated: This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(index) ? 'Missing: This message has not been translated; it needs translating' : ''))"></td>
         <td class="locale-message">
-          <textarea v-model="locale.messages[id].message"></textarea>
+          <textarea v-model="locale.messages[index]"></textarea>
         </td>
       </tr>
     </table>

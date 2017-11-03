@@ -16,47 +16,92 @@ function clone(obj) {
 let app = new Vue({
   el: '#app',
   data: {
-    locales: null,
+    state: null,
+    showUpdate: false,
+    showUpdated: false,
     localeId: null,
     locale: null,
-    messages: null,
-    en: null,
-    messageFilter: null,
     showMissingLocales: store.get('show-missing-locales'),
     tippy: tippy(),
     history: History.createBrowserHistory()
   },
   mounted: function () {
-    const toLocale = location => {
-      let locale = location.hash.slice(1).trim();
-      let allIds = Object.keys(this.locales);
-      return (locale !== '' && allIds.includes(locale)) ? locale : allIds[0];
-    }
+    this.state = store.get('state');
 
     qwest.get('../../locales.json').then((_, resp) => {
-      let locales = resp.locales;
-      this.en = locales['en'];
-      delete locales['en'];
-      this.locales = locales;
+      if (!this.state) {
+        this.state = this.expandState(resp);
+        store.set('state', resp);
+      } else {
+        this.showUpdate = resp.hash !== this.state.hash;
+        this.loadUpdate = () => {
+          this.state = this.expandState(resp);
+          store.set('state', resp);
+          this.hideUpdate();
 
-      this.localeId = store.get('locale-id');
-      if (!this.localeId || window.location.hash !== '') {
-        this.localeId = toLocale(window.location);
+          this.showUpdated = true;
+          setTimeout(() => this.showUpdated = false, 2 * 1000);
+        };
+        this.hideUpdate = () => {
+          this.showUpdate = false;
+          this.loadUpdate = this.hideUpdate = null;
+        };
       }
     });
 
-    this.history.listen(location => this.localeId = toLocale(location));
+    this.history.listen(this.setLocaleId);
+
+    const saveState = () => {
+      if (this.state) {
+        store.set('state', this.state);
+      }
+    };
+
+    window.addEventListener('beforeunload', saveState);
+    setInterval(saveState, 5 * 60 * 1000);
   },
   methods: {
-    exportJson() {
-      let messages = clone(this.locale.messages);
-      for (let id in messages) {
-        let clean = messages[id].message.trim();
-        if (clean === "" && this.locale.missing.includes(id)) {
-          delete messages[id];
-        } else {
-          messages[id].message = clean;
+    expandState(state) {
+      for (let id in state.locales) {
+        let locale = state.locales[id];
+        if (!locale.exists) {
+          locale.missing = [];
+          locale.messages = [];
+          for (let i = 0; i < state.template.length; ++i) {
+            locale.missing.push(i);
+            locale.messages.push(null);
+          }
+          locale.outdated = [];
+          locale.identical = [];
         }
+      }
+      return state;
+    },
+    exportJson() {
+      let messages = {};
+
+      for (let i in this.state.template) {
+        let info = clone(this.state.template[i]);
+        let id = info.id;
+        delete info.id;
+
+        let message = this.locale.messages[i];
+        if (!message) {
+          continue;
+        }
+
+        if (!message.match(/\s+/)) {
+          message = message.trim();
+        }
+
+        if (message === '' && this.locale.missing.includes(i)) {
+          continue;
+        }
+
+        messages[id] = {
+          message,
+          ...info
+        };
       }
 
       let json = JSON.stringify(messages, null, '    ');
@@ -67,55 +112,11 @@ let app = new Vue({
       link.click();
       document.body.removeChild(link);
     },
-    filter(messages, filter) {
-      if (filter === null) {
-        return messages;
-      }
-
-      let pattern = null;
-      try {
-        pattern = new RegExp(filter);
-      } catch (e) {
-        return messages;
-      }
-
-      let out = {};
-      for (let id in messages) {
-        if (id.match(pattern)) {
-          out[id] = messages[id];
-        }
-      }
-      return out;
-    }
-  },
-  computed: {
-  },
-  watch: {
-    showMissingLocales(newMissing) {
-      store.set('show-missing-locales', newMissing);
-    },
-    localeId(newId) {
+    loadLocale() {
       // Destroy existing tooltips.
       this.tippy.destroyAll();
 
-      // Update window location.
-      this.history.replace('#' + newId);
-      if (!this.locales[newId].exists) {
-        this.showMissingLocales = true;
-      }
-
-      // Persist locale setting.
-      store.set('locale-id', newId);
-
-      // Copy missing messages from en.
-      this.locale = this.locales[this.localeId];
-      let messages = this.locale.messages;
-      for (let id in this.en.messages) {
-        if (!messages[id]) {
-          messages[id] = clone(this.en.messages[id]);
-          messages[id].message = '';
-        }
-      }
+      this.locale = this.state.locales[this.localeId];
 
       // Update tooltips.
       Vue.nextTick(() => {
@@ -126,6 +127,42 @@ let app = new Vue({
           animation: null
         });
       });
+    },
+    setLocaleId() {
+      if (!this.state) {
+        return;
+      }
+
+      let id = window.location.hash.slice(1).trim();
+      let allIds = Object.keys(this.state.locales);
+      if (id !== '' && !allIds.includes(id)) {
+        id = allIds[0];
+      }
+
+      this.localeId = id || store.get('locale-id') || allIds[0];
+    }
+  },
+  computed: {
+  },
+  watch: {
+    state(newState) {
+      this.setLocaleId();
+      this.loadLocale();
+    },
+    showMissingLocales(newMissing) {
+      store.set('show-missing-locales', newMissing);
+    },
+    localeId(newId) {
+      this.loadLocale();
+
+      // Persist locale setting.
+      store.set('locale-id', newId);
+
+      // Update window location.
+      this.history.replace('#' + newId);
+      if (!this.state.locales[newId].exists) {
+        this.showMissingLocales = true;
+      }
     }
   }
 });

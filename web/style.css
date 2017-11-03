@@ -3,12 +3,15 @@ body, html {
   margin: 0;
   padding: 0;
 }
+[v-cloak] {
+  display: none;
+}
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 17px;
   background: #e5e5e5;
 }
@@ -30,6 +33,10 @@ body, html {
 .toolbar select, .toolbar input {
   font-size: 17px;
 }
+.toolbar input[type="checkbox"] {
+  position: relative;
+  top: -2px;
+}
 .toolbar .stats {
   margin-left: 20px;
 }
@@ -38,7 +45,7 @@ body, html {
   cursor: help;
 }
 .toolbar .stat span {
-  padding: 3px 5px;
+  padding: 3px 9px;
 	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
@@ -54,7 +61,7 @@ th, td {
   padding: 8px;
 }
 th {
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   background: #f3f3f3;
 }
 td:last-of-type {
@@ -119,7 +126,41 @@ tr.missing td.state, tr.identical td.state, tr.outdated td.state {
 }
 .tippy-tooltip {
   font-size: 15px;
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: 150%;
   font-weight: 600;
+}
+.popup {
+  text-align: center;
+  position: fixed;
+  top: 30%;
+  left: 0;
+  right: 0;
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  padding: 20px 30px;
+  background: #ffffcc;
+  z-index: 1;
+	-moz-box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.4);
+	box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  line-height: 200%;
+}
+.popup.success {
+  background: #ccffcc;
+}
+.popup button {
+  outline: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 16px;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #0000ff;
+}
+.popup button:last-of-type {
+  margin-left: 30px;
 }
