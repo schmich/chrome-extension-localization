@@ -49,22 +49,24 @@
       </div>
       <button @click="exportJson" title="Download messages.json for this locale">Export JSON</button>
     </div>
-    <table v-if="state && localeId">
-      <tr>
-        <th>Message ID</th>
-        <th>en: English</th>
-        <th>State</th>
-        <th>{{ localeId }}: {{ state.locales[localeId].name }}</th>
-      </tr>
-      <tr v-for="(item, index) in state.template" :class="{ identical: locale.identical.includes(index), outdated: locale.outdated.includes(index), missing: locale.missing.includes(index) }">
-        <td class="id">{{ item['id'] }}</td>
-        <td class="en-message">{{ state.locales['en']['messages'][index] }}</td>
-        <td class="state" :title="locale.identical.includes(index) ? 'Identical: This message is the same as its English counterpart; it might need translating' : (locale.outdated.includes(index) ? 'Outdated: This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(index) ? 'Missing: This message has not been translated; it needs translating' : ''))"></td>
-        <td class="locale-message">
-          <textarea v-model="locale.messages[index]"></textarea>
-        </td>
-      </tr>
-    </table>
+    <div class="messages" v-if="state && locale">
+      <div class="cell">Message ID</div>
+      <div class="cell">en: English</div>
+      <div class="cell">State</div>
+      <div class="cell">{{ localeId }}: {{ locale.name }}</div>
+      <template v-for="(item, index) in state.template">
+        <div class="cell description">
+          {{ item['description'] }}
+        </div>
+        <div class="cell id">{{ item['id'] }}</div>
+        <div class="cell en-message">{{ state.locales.en.messages[index] }}</div>
+        <div class="cell state"
+          :class="{ identical: locale.identical.includes(index), outdated: locale.outdated.includes(index), missing: locale.missing.includes(index) }"
+          :title="locale.identical.includes(index) ? 'Identical: This message is the same as its English counterpart; it might need translating' : (locale.outdated.includes(index) ? 'Outdated: This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(index) ? 'Missing: This message has not been translated; it needs translating' : ''))">
+        </div>
+        <textarea rows="1" class="cell locale-message" v-model="locale.messages[index]"></textarea>
+      </template>
+    </div>
   </div>
   <script type="text/javascript" src="app.js"></script>
 </body>

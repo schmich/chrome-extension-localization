@@ -13,7 +13,7 @@ body, html {
   padding: 10px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 17px;
-  background: #e5e5e5;
+  background: #ddd;
 }
 .toolbar label {
   margin-left: 20px;
@@ -50,78 +50,87 @@ body, html {
 	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 }
-table {
-  width: 100%;
+.messages {
+  display: grid;
+  grid-template-columns: auto 30fr 80px 70fr;
+  align-items: stretch;
   border-collapse: collapse;
+  grid-auto-rows: auto;
 }
-table, th, td {
-  border: 1px solid #888;
-}
-th, td {
+.cell {
   padding: 8px;
+  border-width: 0;
+  border-color: #555;
+  border-style: solid;
+  border-left-color: #e7e7e7;
+  border-left-width: 1px;
 }
-th {
+.cell:nth-child(5n + 5) {
+  border-top-width: 1px;
+}
+.cell:nth-child(-n + 4) {
+  border-top-width: 1px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  background: #f3f3f3;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  background: #e7e7e7;
 }
-td:last-of-type {
-  padding: 0;
+.description {
+  grid-column: 1 / span 4;
+  background: #f7f7f7;
+  padding: 10px;
+  color: #555;
 }
-td.id {
+.id {
   font-family: Monaco, Consolas, 'Courier New';
   font-size: smaller;
-  width: 10%;
 }
-td.en-message {
+.en-message {
   white-space: pre-line;
-  width: 30%;
 }
-td.state {
-  width: 30px;
-}
-td.locale-message {
-  width: auto;
-  height: 100%;
-  position: relative;
-}
-td.locale-message textarea {
-  border: 0;
+.locale-message {
+  padding: 3px 6px;
+  margin: 0;
+  box-sizing: border-box;
+  outline: 0;
   font-family: serif;
   font-size: 16px;
-  color: #000;
-  box-sizing: border-box;
-  padding: 4px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
+  min-height: 0;
 }
-td.state {
+.locale-message:focus {
+  background: #fffff0;
+}
+.state {
   font-family: monospace;
   font-size: 15px;
-  text-align: center;
+  position: relative;
 }
-tr.missing td.state, span.missing {
+.state:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.state.missing, span.missing {
   background: #ffaaaa;
 }
-tr.missing td.state:after {
+.state.missing:after {
   content: 'MISS';
 }
-tr.identical td.state, span.identical {
+.state.identical, span.identical {
   background: #ffffaa;
 }
-tr.identical td.state:after {
+.state.identical:after {
   content: 'IDEN';
 }
-tr.outdated td.state, span.outdated {
+.state.outdated, span.outdated {
   background: #ccc;
 }
-tr.outdated td.state:after {
+.state.outdated:after {
   content: 'OUTD';
 }
-tr.missing td.state, tr.identical td.state, tr.outdated td.state {
+.state.missing, .state.identical, .state.outdated {
   cursor: help;
 }
 .tippy-tooltip {

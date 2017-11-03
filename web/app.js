@@ -120,7 +120,7 @@ let app = new Vue({
 
       // Update tooltips.
       Vue.nextTick(() => {
-        this.tippy = tippy('td.state, .stat', {
+        this.tippy = tippy('.state, .stat', {
           arrow: true,
           duration: 0,
           distance: 15,
