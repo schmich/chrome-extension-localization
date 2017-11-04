@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="popup success" v-if="showUpdated">
-      New translations loaded.
+      Translations updated from the server.
     </div>
     <div v-if="state && !locale">
       <div class="toolbar">
@@ -79,7 +79,10 @@
             </span>
           </span>
         </div>
-        <button @click="exportJson" class="export-button" title="Download messages.json for this locale">Export</button>
+        <div>
+          <button @click="resetState" class="reset-button" title=""><i class="icon-trash"></i> Reset</button>
+          <button @click="exportJson" class="export-button" title="Download messages.json for this locale">Export</button>
+        </div>
       </div>
       <div class="messages" v-if="state && locale">
         <div class="cell">Message ID</div>

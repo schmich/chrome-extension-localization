@@ -95,6 +95,18 @@ let app = new Vue({
       }
       return state;
     },
+    resetState() {
+      if (!confirm('Discard your work and load translations from the server?')) {
+        return;
+      }
+
+      qwest.get('../../locales.json').then((_, resp) => {
+        this.state = this.expandState(resp);
+        store.set('state', resp);
+        this.showUpdated = true;
+        setTimeout(() => this.showUpdated = false, 2 * 1000);
+      });
+    },
     exportJson() {
       let messages = {};
 
