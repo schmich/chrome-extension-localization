@@ -53,7 +53,7 @@
     <div v-else-if="state && locale">
       <div class="toolbar">
         <div>
-          <button @click="navigateIndex()" class="index-button"><span class="arrow">&lt;</span> Locales</button>
+          <button @click="navigateIndex()" class="index-button"><i class="icon-arrow-left"></i> Locales</button>
           <span class="title">Locale: {{ localeId }}</span>
           <button class="toggle-button" @click="toggleMessages()"><i :class="{ 'icon-show': toggleShow, 'icon-hide': !toggleShow }"></i> {{ toggleShow ? 'Show' : 'Hide' }} All</button>
           <span class="stats">
