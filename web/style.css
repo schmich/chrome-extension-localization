@@ -90,7 +90,6 @@ body, html {
 }
 .toolbar .stat {
   margin: 0 10px;
-  cursor: help;
 }
 .toolbar .stat label {
   padding: 3px 9px;
@@ -257,7 +256,7 @@ body, html {
 .locales td, .locales th {
   border: 0;
   margin: 0;
-  padding: 6px;
+  padding: 8px;
 }
 .locales th {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -268,6 +267,9 @@ body, html {
   border-width: 1px 0;
   border-color: #777;
   border-style: solid;
+}
+.locales td {
+  border-bottom: 1px solid #aaa;
 }
 .locales .locale:hover td {
   cursor: pointer;
