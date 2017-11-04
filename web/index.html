@@ -4,6 +4,7 @@
   <base href="chrome-extension-localization/web/">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" type="text/css" href="tippy.css">
+  <link rel="stylesheet" type="text/css" href="fontello.css">
   <link rel="stylesheet" href="style.css">
   <script type="text/javascript" src="qwest.js"></script>
   <script type="text/javascript" src="history.js"></script>
@@ -36,9 +37,9 @@
         <tr>
           <th>Exists?</th>
           <th>Locale</th>
-          <th data-tip="true" title="Messages that have not been translated; they need translating">Missing</th>
-          <th data-tip="true" title="Messages with English counterparts that changed since translation; the translation might need updating">Outdated</th>
-          <th data-tip="true" title="Messages that are identical to their English counterparts; they might need translating">Identical</th>
+          <th data-tip title="Messages that have not been translated; they need translating">Missing</th>
+          <th data-tip title="Messages with English counterparts that changed since translation; the translation might need updating">Outdated</th>
+          <th data-tip title="Messages that are identical to their English counterparts; they might need translating">Identical</th>
         </tr>
         <tr @click="navigateLocale(id)" class="locale" v-for="(lo, id) in state.locales" v-if="id != 'en' && (showMissingLocales || lo.exists)">
           <td class="exists" :class="{ yes: lo.exists }">{{ lo.exists ? 'Yes' : 'No' }}</td>
@@ -53,27 +54,39 @@
       <div class="toolbar">
         <div>
           <button @click="navigateIndex()" class="index-button"><span class="arrow">&lt;</span> Locales</button>
-          <span class="title">{{ localeId }}: {{ locale.name }}</span>
-          <span v-if="localeId" class="stats">
-            <span class="stat" data-tip="true" title="Messages that have not been translated; they need translating">
-              <span class="missing">Missing</span> {{ locale.missing.length }}
+          <span class="title">Locale: {{ localeId }}</span>
+          <button class="toggle-button" @click="toggleMessages()"><i :class="{ 'icon-show': toggleShow, 'icon-hide': !toggleShow }"></i> {{ toggleShow ? 'Show' : 'Hide' }} All</button>
+          <span class="stats">
+            <span class="stat">
+              <input id="show-normal" type="checkbox" v-model="showMessages.normal"></input>
+              <label for="show-normal" class="normal" data-tip title="Messages without any flagged issues">Normal</label>
+              {{ state.template.length - locale.missing.length - locale.outdated.length - locale.identical.length }}
             </span>
-            <span class="stat" data-tip="true" title="Messages with English counterparts that changed since translation; the translation might need updating">
-              <span class="outdated">Outdated</span> {{ locale.outdated.length }}
+            <span class="stat">
+              <input id="show-missing" type="checkbox" v-model="showMessages.missing"></input>
+              <label for="show-missing" class="missing" data-tip title="Messages that have not been translated; they need translating">Missing</label>
+              {{ locale.missing.length }}
             </span>
-            <span class="stat" data-tip="true" title="Messages that are identical to their English counterparts; they might need translating">
-              <span class="identical">Identical</span> {{ locale.identical.length }}
+            <span class="stat">
+              <input id="show-outdated" type="checkbox" v-model="showMessages.outdated"></input>
+              <label for="show-outdated" class="outdated" data-tip title="Messages with English counterparts that changed since translation; the translation might need updating">Outdated</label>
+              {{ locale.outdated.length }}
+            </span>
+            <span class="stat">
+              <input id="show-identical" type="checkbox" v-model="showMessages.identical"></input>
+              <label for="show-identical" class="identical" data-tip title="Messages that are identical to their English counterparts; they might need translating">Identical</label>
+              {{ locale.identical.length }}
             </span>
           </span>
         </div>
-        <button @click="exportJson" class="export-button" title="Download messages.json for this locale">Export JSON</button>
+        <button @click="exportJson" class="export-button" title="Download messages.json for this locale">Export</button>
       </div>
       <div class="messages" v-if="state && locale">
         <div class="cell">Message ID</div>
         <div class="cell">en: English</div>
         <div class="cell">State</div>
         <div class="cell">{{ localeId }}: {{ locale.name }}</div>
-        <template v-for="(item, index) in state.template">
+        <template v-for="(item, index) in visibleTemplate">
           <div class="cell description">
             {{ item.description }}
             <span class="example" v-if="item.placeholders">
@@ -82,15 +95,18 @@
           </div>
           <div class="cell id">{{ item['id'] }}</div>
           <div class="cell en-message">{{ state.locales.en.messages[index] }}</div>
-          <div class="cell state"
-            data-tip="true"
-            :class="{ identical: locale.identical.includes(index), outdated: locale.outdated.includes(index), missing: locale.missing.includes(index) }"
-            :title="locale.identical.includes(index) ? 'Identical: This message is the same as its English counterpart; it might need translating' : (locale.outdated.includes(index) ? 'Outdated: This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(index) ? 'Missing: This message has not been translated; it needs translating' : ''))">
+          <div class="cell state" data-tip
+            :class="{ identical: locale.identical.includes(+index), outdated: locale.outdated.includes(+index), missing: locale.missing.includes(+index) }"
+            :title="locale.identical.includes(+index) ? 'Identical: This message is the same as its English counterpart; it might need translating' : (locale.outdated.includes(+index) ? 'Outdated: This message has an English counterpart that has been updated since the most recent translation; this translation might need updating' : (locale.missing.includes(+index) ? 'Missing: This message has not been translated; it needs translating' : ''))">
           </div>
           <div class="cell locale-message">
             <textarea placeholder="(click to add translation)" rows="1" v-model="locale.messages[index]"></textarea>
           </div>
         </template>
+      </div>
+      <div class="show-messages" v-if="Object.keys(visibleTemplate).length === 0">
+        All messages are hidden.<br>
+        <button class="show-messages-button" @click="toggleMessages()">Show All</button>
       </div>
     </div>
   </div>

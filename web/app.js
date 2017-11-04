@@ -13,6 +13,11 @@ function clone(obj) {
   }
 }
 
+store.safeGet = (name, defaultValue) => {
+  let value = store.get(name);
+  return value === undefined ? defaultValue : value;
+};
+
 let app = new Vue({
   el: '#app',
   data: {
@@ -22,7 +27,8 @@ let app = new Vue({
     localeId: null,
     locale: null,
     navigated: false,
-    showMissingLocales: store.get('show-missing-locales'),
+    showMissingLocales: store.safeGet('show-missing-locales', true),
+    showMessages: store.safeGet('show-messages', { normal: true, missing: true, outdated: true, identical: true }),
     tippy: tippy(),
     history: History.createBrowserHistory()
   },
@@ -159,9 +165,47 @@ let app = new Vue({
         result = result.replace('$' + name + '$', example);
       }
       return result;
+    },
+    toggleMessages() {
+      const show = this.toggleShow;
+      this.showMessages = {
+        normal: show,
+        missing: show,
+        outdated: show,
+        identical: show
+      };
     }
   },
   computed: {
+    toggleShow() {
+      const { normal, missing, outdated, identical } = this.showMessages;
+      let show = true;
+      if (normal == missing && normal == outdated && normal == identical) {
+        show = !normal;
+      }
+      return show;
+    },
+    visibleTemplate() {
+      let visible = {};
+      for (let index in this.state.template) {
+        const missing = this.locale.missing.includes(+index);
+        const outdated = this.locale.outdated.includes(+index);
+        const identical = this.locale.identical.includes(+index);
+        const normal = !missing && !outdated && !identical;
+        const show = (this.showMessages.normal || !normal)
+                  && (this.showMessages.missing || !missing)
+                  && (this.showMessages.outdated || !outdated)
+                  && (this.showMessages.identical || !identical);
+
+        if (!show) {
+          continue;
+        }
+
+        visible[index] = this.state.template[index];
+      }
+
+      return visible;
+    }
   },
   watch: {
     state(newState) {
@@ -170,6 +214,12 @@ let app = new Vue({
     },
     showMissingLocales(newMissing) {
       store.set('show-missing-locales', newMissing);
+    },
+    showMessages: {
+      handler(newShow) {
+        store.set('show-messages', newShow);
+      },
+      deep: true
     },
     localeId(newId, oldId) {
       this.loadLocale();

@@ -7,6 +7,7 @@ body, html {
   display: none;
 }
 .toolbar {
+  min-height: 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,16 +20,17 @@ body, html {
 }
 .toolbar .title {
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
 }
 .toolbar label {
   cursor: pointer;
 }
 .export-button {
   border: 0;
-  padding: 7px 20px;
+  padding: 7px 30px;
   background: #4444ff;
   color: #fff;
-  font-size: 17px;
+  font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
 	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
@@ -52,6 +54,29 @@ body, html {
 .index-button:hover {
   background: #fff;
 }
+.show-messages-button {
+  margin-top: 20px;
+  border: 0;
+  padding: 10px 30px;
+  background: #4444ff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
+}
+.toggle-button {
+  font-size: 16px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.toggle-button i, .toggle-button:hover {
+  color: #3333ee;
+}
 .toolbar select, .toolbar input {
   font-size: 17px;
 }
@@ -61,13 +86,13 @@ body, html {
   top: -2px;
 }
 .toolbar .stats {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 .toolbar .stat {
   margin: 0 10px;
   cursor: help;
 }
-.toolbar .stat span {
+.toolbar .stat label {
   padding: 3px 9px;
 	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
 }
@@ -96,11 +121,21 @@ body, html {
   padding: 8px;
   background: #e7e7e7;
 }
+.cell:nth-last-child(-n + 4) {
+  border-bottom-width: 1px;
+}
 .description {
   grid-column: 1 / span 4;
   background: #f7f7f7;
   padding: 12px;
   color: #444;
+}
+.show-messages {
+  font-size: 20px;
+  border-top-width: 1px;
+  background: #fffff0;
+  text-align: center;
+  padding: 100px 0;
 }
 .example {
   font-style: italic;
@@ -145,17 +180,20 @@ body, html {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.normal {
+  background: #fff;
+}
 .missing {
   background: #ffaaaa;
 }
 .outdated {
   background: #88aaff;
 }
-.state.missing:after {
-  content: 'MISS';
-}
 .identical {
   background: #ffffaa;
+}
+.state.missing:after {
+  content: 'MISS';
 }
 .state.identical:after {
   content: 'IDEN';
