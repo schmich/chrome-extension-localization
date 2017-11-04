@@ -13,12 +13,17 @@ body, html {
   padding: 10px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 17px;
-  background: #ddd;
+  background: #bbddff;
+  border-bottom: 3px solid #aaccff;
+  border-top: 3px solid #aaccff;
+}
+.toolbar .title {
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
 }
 .toolbar label {
-  margin-left: 20px;
+  cursor: pointer;
 }
-.toolbar button {
+.export-button {
   border: 0;
   padding: 7px 20px;
   background: #4444ff;
@@ -26,14 +31,32 @@ body, html {
   font-size: 17px;
   cursor: pointer;
   border-radius: 5px;
-	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
-	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
+}
+.index-button {
+  border: 0;
+  border-radius: 5px;
+  background: #fdfdfd;
+  padding: 7px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 20px;
+	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
+}
+.index-button .arrow {
+  position: relative;
+  top: -1px;
+  font-weight: bold;
+  margin-right: 3px;
+}
+.index-button:hover {
+  background: #fff;
 }
 .toolbar select, .toolbar input {
   font-size: 17px;
 }
 .toolbar input[type="checkbox"] {
+  cursor: pointer;
   position: relative;
   top: -2px;
 }
@@ -46,9 +69,7 @@ body, html {
 }
 .toolbar .stat span {
   padding: 3px 9px;
-	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
-	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
 }
 .messages {
   display: grid;
@@ -58,7 +79,7 @@ body, html {
 .cell {
   padding: 8px;
   border-width: 0;
-  border-color: #555;
+  border-color: #777;
   border-style: solid;
   border-left-color: #e7e7e7;
   border-left-width: 1px;
@@ -128,7 +149,7 @@ body, html {
   background: #ffaaaa;
 }
 .outdated {
-  background: #aaaaff;
+  background: #88aaff;
 }
 .state.missing:after {
   content: 'MISS';
@@ -184,4 +205,45 @@ body, html {
 }
 .popup button:last-of-type {
   margin-left: 30px;
+}
+.locales {
+  width: 50%;
+  min-width: 600px;
+  max-width: 800px;
+  border: 0;
+  margin: 0;
+  margin: 0 auto;
+  padding: 0;
+  border-collapse: collapse;
+}
+.locales td, .locales th {
+  border: 0;
+  margin: 0;
+  padding: 6px;
+}
+.locales th {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  background: #e7e7e7;
+  border-width: 1px 0;
+  border-color: #777;
+  border-style: solid;
+}
+.locales .locale:hover td {
+  cursor: pointer;
+  background: #fffff0 !important;
+  color: #555550 !important;
+}
+.locales .counter, .locales .exists {
+  text-align: center;
+  font-family: monospace;
+  font-size: smaller;
+}
+.locales .exists {
+  background: #f7f7f7;
+}
+.locales .exists.yes {
+  background: #aaffaa;
 }

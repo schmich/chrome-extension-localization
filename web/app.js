@@ -21,6 +21,7 @@ let app = new Vue({
     showUpdated: false,
     localeId: null,
     locale: null,
+    navigated: false,
     showMissingLocales: store.get('show-missing-locales'),
     tippy: tippy(),
     history: History.createBrowserHistory()
@@ -49,7 +50,10 @@ let app = new Vue({
       }
     });
 
-    this.history.listen(this.setLocaleId);
+    this.history.listen(() => {
+      this.navigated = true;
+      this.setLocaleId();
+    });
 
     const saveState = () => {
       if (this.state) {
@@ -61,6 +65,14 @@ let app = new Vue({
     setInterval(saveState, 5 * 60 * 1000);
   },
   methods: {
+    navigateIndex() {
+      this.localeId = null;
+      setTimeout(() => window.scrollTo(0, 0), 0);
+    },
+    navigateLocale(localeId) {
+      this.localeId = localeId;
+      setTimeout(() => window.scrollTo(0, 0), 0);
+    },
     expandState(state) {
       for (let id in state.locales) {
         let locale = state.locales[id];
@@ -116,11 +128,15 @@ let app = new Vue({
       // Destroy existing tooltips.
       this.tippy.destroyAll();
 
-      this.locale = this.state.locales[this.localeId];
+      if (this.state && this.localeId) {
+        this.locale = this.state.locales[this.localeId];
+      } else {
+        this.locale = null;
+      }
 
       // Update tooltips.
       Vue.nextTick(() => {
-        this.tippy = tippy('.state, .stat', {
+        this.tippy = tippy('[data-tip]', {
           arrow: true,
           duration: 0,
           distance: 15,
@@ -134,12 +150,7 @@ let app = new Vue({
       }
 
       let id = window.location.hash.slice(1).trim();
-      let allIds = Object.keys(this.state.locales);
-      if (id !== '' && !allIds.includes(id)) {
-        id = allIds[0];
-      }
-
-      this.localeId = id || store.get('locale-id') || allIds[0];
+      this.localeId = id || (this.navigated ? null : store.get('locale-id'));
     },
     substitute(message, placeholders) {
       let result = message;
@@ -160,16 +171,20 @@ let app = new Vue({
     showMissingLocales(newMissing) {
       store.set('show-missing-locales', newMissing);
     },
-    localeId(newId) {
+    localeId(newId, oldId) {
       this.loadLocale();
 
       // Persist locale setting.
       store.set('locale-id', newId);
 
-      // Update window location.
-      this.history.replace('#' + newId);
-      if (!this.state.locales[newId].exists) {
-        this.showMissingLocales = true;
+      if (newId) {
+        // Update window location.
+        this.history.push('#' + newId);
+        if (!this.state.locales[newId].exists) {
+          this.showMissingLocales = true;
+        }
+      } else {
+        this.history.push('');
       }
     }
   }
