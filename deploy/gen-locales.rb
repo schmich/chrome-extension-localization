@@ -171,12 +171,28 @@ def messages_template
   end
 end
 
+def repo_info
+  remote = `git config --get branch.master.remote`.strip
+  url = `git config --get "remote.#{remote}.url"`.strip
+  project = File.basename(url, '.git')
+  user = File.basename(File.dirname(url)).split(':').last
+  return user, project
+end
+
 locales = locale_status()
 template = messages_template()
-content = JSON.dump({ locales: locales, template: template })
+user, project = repo_info()
+
+payload = {
+  user: user,
+  project: project,
+  locales: locales,
+  template: template
+}
+
+content = JSON.dump(payload)
 
 puts JSON.dump({
   hash: Digest::SHA2.hexdigest(content),
-  locales: locales,
-  template: template
+  **payload
 })
