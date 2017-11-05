@@ -18,12 +18,19 @@
     <div class="popup" v-if="showUpdate">
       New translations are available. Load them now? <strong>You will lose any work in progress.</strong>
       <div>
-        <button @click.prevent="loadUpdate()">Load Translations</button>
-        <button @click.prevent="hideUpdate()">Dismiss For Now</button>
+        <button @click="loadUpdate()"><i class="icon-download"></i>Load Translations</button>
+        <button @click="hideUpdate()"><i class="icon-cancel"></i>Dismiss For Now</button>
       </div>
     </div>
     <div class="popup success" v-if="showUpdated">
       Translations updated from the server.
+    </div>
+    <div class="popup success" v-if="editUrl">
+      {{ locale.name }} translations exported to messages.json.
+      <div>
+        <a :href="editUrl" target="_blank"><i class="icon-git"></i>{{ locale.exists ? 'Edit' : 'Create' }} File on GitHub</a>
+        <button @click="editUrl = null"><i class="icon-cancel"></i>Dismiss</button>
+      </div>
     </div>
     <div v-if="state && !locale">
       <div class="toolbar">
