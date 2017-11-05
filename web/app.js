@@ -135,7 +135,7 @@ let app = new Vue({
         };
       }
 
-      let json = JSON.stringify(messages, null, '    ');
+      let json = JSON.stringify(messages, null, '  ');
       let link = document.createElement('a');
       link.href = 'data:application/json,' + encodeURIComponent(json);
       link.download = 'messages.json';
