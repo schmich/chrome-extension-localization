@@ -14,9 +14,9 @@ Chart/diagram explaining flow
 
 This tool was created to help localize [Marinara](https://github.com/schmich/marinara). The following walkthrough will use `marinara` as the example project name.
 
-1. Create a new GitHub repo called `marinara-localization`:
+1. [Create a new GitHub repo](https://github.com/new) called `marinara-localization`. It will serve as the GitHub Pages host for the localization tool.
 
-(screenshots)
+# ![](assets/create-repo.png)
 
 2. Clone `marinara-localization`:
 
@@ -139,4 +139,3 @@ Commit all changes to your .travis.yml.
 ## Updating
 
 TODO `git submodule update --remote chrome-extension-localization`
-
