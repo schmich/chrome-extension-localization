@@ -144,10 +144,12 @@ let app = new Vue({
       document.body.removeChild(link);
 
       // Show link for creating/editing messages.json on GitHub.
+      const prefix = `https://github.com/${this.state.user}/${this.state.project}`
+      const path = `master/${this.state.path}/${this.localeId}/messages.json`;
       if (this.locale.exists) {
-        this.editUrl = `https://github.com/${this.state.user}/${this.state.project}/edit/master/src/_locales/${this.localeId}/messages.json`;
+        this.editUrl = `${prefix}/edit/${path}`;
       } else {
-        this.editUrl = `https://github.com/${this.state.user}/${this.state.project}/new/master/src/_locales/${this.localeId}/messages.json?filename=messages.json`;
+        this.editUrl = `${prefix}/new/${path}?filename=messages.json`;
       }
     },
     loadLocale() {

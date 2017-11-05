@@ -59,9 +59,13 @@ $locales  = {
   'zh_TW' => 'Chinese (Taiwan)'
 }
 
+def locales_path
+  path = ENV['LOCALES_PATH']
+  raise 'LOCALES_PATH is not defined.' if path.nil?
+  path
+end
+
 def messages_file(locale)
-  locales_path = ENV['LOCALES_PATH']
-  raise 'LOCALES_PATH is not defined.' if locales_path.nil?
   root = `git rev-parse --show-toplevel`.strip
   File.join(root, locales_path, locale, 'messages.json')
 end
@@ -186,6 +190,7 @@ user, project = repo_info()
 payload = {
   user: user,
   project: project,
+  path: locales_path,
   locales: locales,
   template: template
 }
