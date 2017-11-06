@@ -1,4 +1,5 @@
-body, html {
+body, html, input, textarea, select, button {
+  font-family: 'Source Sans Pro';
   font-size: 16px;
   margin: 0;
   padding: 0;
@@ -12,15 +13,15 @@ body, html {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 17px;
-  background: #bbddff;
-  border-bottom: 3px solid #aaccff;
-  border-top: 3px solid #aaccff;
+  background: #bdf;
+  border-bottom: 3px solid #acf;
+  border-top: 3px solid #acf;
 }
 .toolbar .title {
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   margin-right: 20px;
+  font-weight: bold;
 }
 .toolbar label {
   cursor: pointer;
@@ -28,7 +29,7 @@ body, html {
 .export-button {
   border: 0;
   padding: 7px 30px;
-  background: #4444ff;
+  background: #44f;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
@@ -70,7 +71,7 @@ body, html {
   margin-top: 20px;
   border: 0;
   padding: 10px 30px;
-  background: #4444ff;
+  background: #44f;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
@@ -87,7 +88,7 @@ body, html {
   cursor: pointer;
 }
 .toggle-button i, .toggle-button:hover {
-  color: #3333ee;
+  color: #33e;
 }
 .toolbar select, .toolbar input {
   font-size: 17px;
@@ -104,8 +105,10 @@ body, html {
   margin: 0 10px;
 }
 .toolbar .stat label {
-  padding: 3px 9px;
+  padding: 1px 8px;
+  border-radius: 3px;
 	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
+  margin-right: 5px;
 }
 .messages {
   display: grid;
@@ -126,7 +129,6 @@ body, html {
 }
 .cell:nth-child(-n + 4) {
   border-top-width: 1px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-weight: bold;
   text-align: center;
   padding: 8px;
@@ -156,7 +158,7 @@ body, html {
   font-weight: bold;
 }
 .id {
-  font-family: Monaco, Consolas, 'Courier New';
+  font-family: Monaco, Consolas, 'Courier New', monospace;
   font-size: smaller;
 }
 .en-message {
@@ -176,15 +178,14 @@ body, html {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  font-family: serif;
   font-size: 16px;
 }
 .locale-message textarea:focus {
   background: #fffff0;
 }
 .state {
-  font-family: monospace;
-  font-size: 15px;
+  font-family: Monaco, Consolas, 'Courier New', monospace;
+  font-size: 14px;
   position: relative;
 }
 .state:after {
@@ -193,17 +194,21 @@ body, html {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.normal {
+.stat .normal {
   background: #fff;
+  border: 5px solid #eee !important;
 }
-.missing {
-  background: #ffaaaa;
+.stat .missing, .state.missing {
+  background: #fff;
+  border: 5px solid #f55 !important;
 }
-.outdated {
-  background: #88aaff;
+.stat .outdated, .state.outdated {
+  background: #fff;
+  border: 5px solid #8af !important;
 }
-.identical {
-  background: #ffffaa;
+.stat .identical, .state.identical {
+  background: #fff;
+  border: 5px solid #ff5 !important;
 }
 .state.missing:after {
   content: 'MISS';
@@ -218,8 +223,7 @@ body, html {
   cursor: help;
 }
 .tippy-tooltip {
-  font-size: 15px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 17px;
   line-height: 150%;
   font-weight: 600;
 }
@@ -231,16 +235,15 @@ body, html {
   right: 0;
   max-width: 700px;
   margin: 0 auto;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   padding: 20px 30px;
-  background: #ffffcc;
+  background: #ffc;
   z-index: 1;
 	box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
   line-height: 300%;
 }
 .popup.success {
-  background: #ccffcc;
+  background: #cfc;
 }
 .popup button {
   outline: 0;
@@ -252,7 +255,7 @@ body, html {
   cursor: pointer;
 }
 .popup a, .popup button {
-  color: #0000ff;
+  color: #00f;
 }
 .popup i {
   margin-right: 3px;
@@ -261,6 +264,7 @@ body, html {
   margin-left: 30px;
 }
 .locales {
+  font-size: 16px;
   width: 50%;
   min-width: 600px;
   max-width: 800px;
@@ -273,34 +277,43 @@ body, html {
 .locales td, .locales th {
   border: 0;
   margin: 0;
-  padding: 8px;
+  padding: 10px;
 }
 .locales th {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-weight: bold;
   text-align: center;
-  padding: 8px;
   background: #e7e7e7;
   border-width: 1px 0;
   border-color: #777;
   border-style: solid;
-}
-.locales td {
-  border-bottom: 1px solid #aaa;
 }
 .locales .locale:hover td {
   cursor: pointer;
   background: #fffff0 !important;
   color: #555550 !important;
 }
+.locales tr {
+  border-bottom: 2px solid #ccc;
+}
 .locales .counter, .locales .exists {
+  color: #999;
   text-align: center;
-  font-family: monospace;
-  font-size: smaller;
 }
 .locales .exists {
-  background: #f7f7f7;
+  color: #f55;
 }
 .locales .exists.yes {
-  background: #aaffaa;
+  color: #292;
+}
+.locales .missing {
+  font-weight: bold;
+  color: #f55;
+}
+.locales .outdated {
+  font-weight: bold;
+  color: #55f;
+}
+.locales .identical {
+  font-weight: bold;
+  color: #eb2;
 }
