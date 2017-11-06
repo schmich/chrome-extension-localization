@@ -1,6 +1,6 @@
 # Chrome Extension Localization
 
-Chrome Extension Localization helps organize and automate the process of localizing your Chrome extension
+Chrome Extension Localization helps you organize and manage the process of localizing your Chrome extension
 via [Travis CI](https://travis-ci.org/) automatic deployments and [GitHub Pages](https://pages.github.com/) hosting. [Try the live example site](https://schmich.github.io/marinara-localization).
 
 ## Overview
