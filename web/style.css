@@ -119,7 +119,7 @@ input[type="checkbox"] {
 }
 .messages {
   display: grid;
-  grid-template-columns: auto 30fr 80px 70fr;
+  grid-template-columns: auto 40fr 80px 60fr;
   grid-auto-rows: auto;
 }
 .cell {
@@ -148,7 +148,7 @@ input[type="checkbox"] {
   grid-column: 1 / span 4;
   background: #f7f7f7;
   padding: 12px;
-  color: #444;
+  color: #777;
 }
 .show-messages {
   font-size: 20px;
