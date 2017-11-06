@@ -304,7 +304,7 @@ button {
 .locales .locale:hover td {
   cursor: pointer;
   background: #fffff0 !important;
-  color: #555550 !important;
+  color: #0000ff !important;
 }
 .locales tr {
   border-bottom: 2px solid #ccc;
