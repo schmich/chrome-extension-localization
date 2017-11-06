@@ -156,7 +156,7 @@ let app = new Vue({
       // Destroy existing tooltips.
       this.tippy.destroyAll();
 
-      if (this.state && this.localeId) {
+      if (this.state && this.state.locales && this.localeId) {
         this.locale = this.state.locales[this.localeId];
       } else {
         this.locale = null;
@@ -264,7 +264,7 @@ let app = new Vue({
       // Persist locale setting.
       store.set('locale-id', newId);
 
-      if (newId) {
+      if (newId && this.state.locales) {
         // Update window location.
         this.history.push('#' + newId);
         if (!this.state.locales[newId].exists) {
