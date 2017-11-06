@@ -36,27 +36,31 @@
     <div v-if="state && !locale">
       <div class="toolbar">
         <span class="title">ホ Localization — {{ state.user }}/{{ state.project }}</span>
-        <label title="Show locales that do not have a messages.json file">
-          <input type="checkbox" v-model="showMissingLocales"></input>
-          Show locales without translations
-        </label>
       </div>
-      <table class="locales">
-        <tr>
-          <th>Exists?</th>
-          <th>Locale</th>
-          <th data-tip title="Messages that have not been translated; they need translating">Missing</th>
-          <th data-tip title="Messages with English counterparts that changed since translation; the translation might need updating">Outdated</th>
-          <th data-tip title="Messages that are identical to their English counterparts; they might need translating">Identical</th>
-        </tr>
-        <tr @click="navigateLocale(id)" class="locale" v-for="(lo, id) in state.locales" v-if="id != 'en' && (showMissingLocales || lo.exists)">
-          <td class="exists" :class="{ yes: lo.exists }"><i :class="{ 'icon-ok': lo.exists, 'icon-cancel': !lo.exists }"></i> {{ lo.exists ? 'Yes' : 'No' }}</td>
-          <td>{{ id }}: {{ lo.name }}</td>
-          <td class="counter" :class="{ missing: lo.missing.length > 0 }">{{ lo.missing.length || '–' }}</td>
-          <td class="counter" :class="{ outdated: lo.outdated.length > 0 }">{{ lo.outdated.length || '–' }}</td>
-          <td class="counter" :class="{ identical: lo.identical.length > 0 }">{{ lo.identical.length || '–' }}</td>
-        </tr>
-      </table>
+      <div class="index">
+        <div class="criteria">
+          <label title="Show locales that do not have a messages.json file">
+            <input type="checkbox" v-model="showMissingLocales"></input>
+            Show locales without translations
+          </label>
+        </div>
+        <table class="locales">
+          <tr>
+            <th>Exists?</th>
+            <th>Locale</th>
+            <th data-tip title="Messages that have not been translated; they need translating">Missing</th>
+            <th data-tip title="Messages with English counterparts that changed since translation; the translation might need updating">Outdated</th>
+            <th data-tip title="Messages that are identical to their English counterparts; they might need translating">Identical</th>
+          </tr>
+          <tr @click="navigateLocale(id)" class="locale" v-for="(lo, id) in state.locales" v-if="id != 'en' && (showMissingLocales || lo.exists)">
+            <td class="exists" :class="{ yes: lo.exists }"><i :class="{ 'icon-ok': lo.exists, 'icon-cancel': !lo.exists }"></i> {{ lo.exists ? 'Yes' : 'No' }}</td>
+            <td>{{ id }}: {{ lo.name }}</td>
+            <td class="counter" :class="{ missing: lo.missing.length > 0 }">{{ lo.missing.length || '–' }}</td>
+            <td class="counter" :class="{ outdated: lo.outdated.length > 0 }">{{ lo.outdated.length || '–' }}</td>
+            <td class="counter" :class="{ identical: lo.identical.length > 0 }">{{ lo.identical.length || '–' }}</td>
+          </tr>
+        </table>
+      </div>
     </div>
     <div v-else-if="state && locale">
       <div class="toolbar">

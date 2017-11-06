@@ -23,9 +23,6 @@ body, html, input, textarea, select, button {
   margin-right: 20px;
   font-weight: bold;
 }
-.toolbar label {
-  cursor: pointer;
-}
 .export-button {
   border: 0;
   padding: 7px 30px;
@@ -93,7 +90,11 @@ body, html, input, textarea, select, button {
 .toolbar select, .toolbar input {
   font-size: 17px;
 }
-.toolbar input[type="checkbox"] {
+label {
+  cursor: pointer;
+}
+input[type="checkbox"] {
+  margin-right: 3px;
   cursor: pointer;
   position: relative;
   top: -2px;
@@ -263,14 +264,20 @@ body, html, input, textarea, select, button {
 .popup button:last-of-type {
   margin-left: 30px;
 }
-.locales {
-  font-size: 16px;
+.index {
   width: 50%;
   min-width: 600px;
   max-width: 800px;
-  border: 0;
-  margin: 0;
   margin: 0 auto;
+}
+.criteria {
+  background: #fffff0;
+  padding: 15px;
+}
+.locales {
+  width: 100%;
+  font-size: 16px;
+  border: 0;
   padding: 0;
   border-collapse: collapse;
 }
