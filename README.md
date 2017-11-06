@@ -184,8 +184,8 @@ submodule. You can periodically update your submodule references to get the late
 When updating, ensure that you reference the same submodule version (commit hash) in both projects:
 
 ```
-/src/marinara/deploy$ git submodule update --remote chrome-extension-localization
-Submodule path 'chrome-extension-localization': checked out 'dab0105375efef675ee06b943e40d5fcbfc704bd'
+/src/marinara$ git submodule update --remote deploy/chrome-extension-localization
+Submodule path 'deploy/chrome-extension-localization': checked out 'dab0105375efef675ee06b943e40d5fcbfc704bd'
 ```
 
 ```
