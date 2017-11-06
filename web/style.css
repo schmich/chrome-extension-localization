@@ -84,7 +84,6 @@ body, html, input, textarea, select, button {
 .toggle-button {
   font-size: 16px;
   border: 0;
-  outline: 0;
   background: transparent;
   margin: 0 0 0 20px;
   padding: 0;
@@ -104,6 +103,9 @@ input[type="checkbox"] {
   cursor: pointer;
   position: relative;
   top: -2px;
+}
+button {
+  outline: 0;
 }
 .toolbar .stats {
   margin-left: 10px;
@@ -253,7 +255,6 @@ input[type="checkbox"] {
   background: #cfc;
 }
 .popup button {
-  outline: 0;
   padding: 0;
   border: 0;
   background: transparent;
