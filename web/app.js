@@ -196,6 +196,11 @@ let app = new Vue({
         outdated: show,
         identical: show
       };
+    },
+    location(hash) {
+      let url = new URL(window.location);
+      url.hash = hash;
+      return `${url.pathname}${url.hash}`;
     }
   },
   computed: {
@@ -266,12 +271,12 @@ let app = new Vue({
 
       if (newId && this.state.locales) {
         // Update window location.
-        this.history.push('#' + newId);
+        this.history.push(this.location(newId));
         if (!this.state.locales[newId].exists) {
           this.showMissingLocales = true;
         }
       } else {
-        this.history.push('');
+        this.history.push(this.location(''));
       }
     }
   }
