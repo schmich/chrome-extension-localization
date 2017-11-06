@@ -176,7 +176,7 @@ Commit all changes to your .travis.yml.
 <p align="center"><img src="assets/locale-list.png"/></p>
 <p align="center"><img src="assets/locale-editor.png"/></p>
 
-## Updating Submodule
+## Updating Submodules
 
 Both your `extension` and `extension-localization` projects link to `chrome-extension-localization` as a git
 submodule. You can periodically update your submodule references to get the latest features and bug fixes.
