@@ -14,14 +14,20 @@ body, html, input, textarea, select, button {
   align-items: center;
   padding: 10px;
   font-size: 17px;
-  background: #bdf;
-  border-bottom: 3px solid #acf;
-  border-top: 3px solid #acf;
+  background: -webkit-linear-gradient(top, #ddd, #ccc);
+  background: -moz-linear-gradient(top, #ddd, #ccc);
+  background: -o-linear-gradient(top, #ddd, #ccc);
+  background: linear-gradient(top, #ddd, #ccc);
+  border-bottom: 2px solid #aaa;
 }
 .toolbar .title {
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-  margin-right: 20px;
+  text-decoration: none;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  font-size: 24px;
   font-weight: bold;
+  width: 100%;
+  color: #fff;
 }
 .export-button {
   border: 0;
@@ -80,7 +86,7 @@ body, html, input, textarea, select, button {
   border: 0;
   outline: 0;
   background: transparent;
-  margin: 0;
+  margin: 0 0 0 20px;
   padding: 0;
   cursor: pointer;
 }
