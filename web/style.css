@@ -8,46 +8,50 @@ body, html, input, textarea, select, button {
   display: none;
 }
 .toolbar {
+  color: #fff;
   min-height: 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
   font-size: 17px;
-  background: -webkit-linear-gradient(top, #ddd, #ccc);
+  border-bottom: 2px solid #444;
+  background: -webkit-linear-gradient(top, #888, #777);
   background: -moz-linear-gradient(top, #ddd, #ccc);
   background: -o-linear-gradient(top, #ddd, #ccc);
   background: linear-gradient(top, #ddd, #ccc);
-  border-bottom: 2px solid #aaa;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
 }
 .toolbar .title {
+  color: #fff;
+  width: 100%;
   text-decoration: none;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
   text-align: center;
   font-size: 24px;
   font-weight: bold;
-  width: 100%;
-  color: #fff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
+}
+.toolbar button {
+  font-size: 17px;
 }
 .export-button {
   border: 0;
   padding: 7px 30px;
+  margin-left: 5px;
   background: #44f;
   color: #fff;
-  font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.9);
 }
 .reset-button {
   border: 0;
   padding: 7px 15px;
-  background: #eee;
+  background: #f3f3f3;
   color: #000;
-  font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.8);
 }
 .reset-button:hover {
   color: #fff;
@@ -56,12 +60,11 @@ body, html, input, textarea, select, button {
 .index-button {
   border: 0;
   border-radius: 5px;
-  background: #fdfdfd;
+  background: #ddd;
   padding: 7px 15px;
-  font-size: 16px;
   cursor: pointer;
   margin-right: 20px;
-	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.8);
 }
 .index-button i {
   font-size: smaller;
@@ -82,15 +85,19 @@ body, html, input, textarea, select, button {
 	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
 }
 .toggle-button {
-  font-size: 16px;
+  color: #fff;
   border: 0;
   background: transparent;
-  margin: 0 0 0 20px;
+  margin: 0 15px;
   padding: 0;
   cursor: pointer;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
+}
+.toggle-button i {
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
 }
 .toggle-button i, .toggle-button:hover {
-  color: #33e;
+  color: #eee;
 }
 .toolbar select, .toolbar input {
   font-size: 17px;
@@ -114,10 +121,12 @@ button {
   margin: 0 10px;
 }
 .toolbar .stat label {
+  color: #000;
   padding: 1px 8px;
   border-radius: 3px;
-	box-shadow: 0px 3px 2px -2px rgba(0, 0, 0, 0.5);
   margin-right: 5px;
+  text-shadow: none;
+	box-shadow: 0px 3px 5px -2px rgba(0, 0, 0, 0.8);
 }
 .messages {
   display: grid;
@@ -292,6 +301,9 @@ button {
   border: 0;
   margin: 0;
   padding: 10px;
+}
+.locales td:nth-of-type(2) {
+  text-align: center;
 }
 .locales th {
   font-weight: bold;

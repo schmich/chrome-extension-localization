@@ -66,7 +66,6 @@
       <div class="toolbar">
         <div>
           <button @click="navigateIndex()" class="index-button"><i class="icon-arrow-left"></i> Locales</button>
-          <span :title="locale.name">Locale: {{ localeId }}</span>
           <button class="toggle-button" @click="toggleMessages()"><i :class="{ 'icon-show': toggleShow, 'icon-hide': !toggleShow }"></i> {{ toggleShow ? 'Show' : 'Hide' }} All</button>
           <span class="stats">
             <span class="stat">
@@ -93,7 +92,7 @@
         </div>
         <div>
           <button @click="resetState" class="reset-button" title=""><i class="icon-trash"></i> Reset</button>
-          <button @click="exportJson" class="export-button" title="Download messages.json for this locale">Export</button>
+          <button @click="exportJson" class="export-button" title="Download messages.json for this locale"><i class="icon-upload"></i> Export</button>
         </div>
       </div>
       <div class="messages" v-if="state && locale">
