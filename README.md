@@ -192,3 +192,8 @@ Submodule path 'chrome-extension-localization': checked out 'dab0105375efef675ee
 /src/marinara-localization$ git submodule update --remote chrome-extension-localization
 Submodule path 'chrome-extension-localization': checked out 'dab0105375efef675ee06b943e40d5fcbfc704bd' 
 ```
+
+## License
+
+Copyright &copy; 2017 Chris Schmich  
+MIT License. See [LICENSE](LICENSE) for details.
