@@ -240,6 +240,17 @@ let app = new Vue({
     showMessages: {
       handler(newShow) {
         store.set('show-messages', newShow);
+
+        // Recreate tooltips.
+        this.tippy.destroyAll();
+        Vue.nextTick(() => {
+          this.tippy = tippy('[data-tip]', {
+            arrow: true,
+            duration: 0,
+            distance: 15,
+            animation: null
+          });
+        });
       },
       deep: true
     },

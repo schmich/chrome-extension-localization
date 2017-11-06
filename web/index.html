@@ -62,7 +62,7 @@
       <div class="toolbar">
         <div>
           <button @click="navigateIndex()" class="index-button"><i class="icon-arrow-left"></i> Locales</button>
-          <span class="title">Locale: {{ localeId }}</span>
+          <span class="title" :title="locale.name">Locale: {{ localeId }}</span>
           <button class="toggle-button" @click="toggleMessages()"><i :class="{ 'icon-show': toggleShow, 'icon-hide': !toggleShow }"></i> {{ toggleShow ? 'Show' : 'Hide' }} All</button>
           <span class="stats">
             <span class="stat">
