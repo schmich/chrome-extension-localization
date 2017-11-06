@@ -233,6 +233,10 @@ let app = new Vue({
     state(newState) {
       this.setLocaleId();
       this.loadLocale();
+
+      if (newState) {
+        document.title = `${this.state.user}/${this.state.project} · Localization`;
+      }
     },
     showMissingLocales(newMissing) {
       store.set('show-missing-locales', newMissing);
