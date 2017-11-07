@@ -291,8 +291,13 @@ button {
   margin: 0 auto;
 }
 .criteria {
+  display: flex;
+  justify-content: space-between;
   background: #fffff0;
   padding: 15px;
+}
+.criteria a {
+  color: #00f;
 }
 .locales {
   width: 100%;

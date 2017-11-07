@@ -35,7 +35,7 @@
     </div>
     <div v-if="state && !locale">
       <div class="toolbar">
-        <a class="title" :href="'https://github.com/' + state.user + '/' + state.project" target="_blank">{{ state.user }}/{{ state.project }}</a>
+        <a class="title" :href="'https://github.com/' + state.user + '/' + state.project">{{ state.user }}/{{ state.project }}</a>
       </div>
       <div class="index">
         <div class="criteria">
@@ -43,6 +43,9 @@
             <input type="checkbox" v-model="showMissingLocales"></input>
             Show locales without translations
           </label>
+          <div>
+            <a href="https://github.com/schmich/chrome-extension-localization#translation-guide">Translation Guide</a>
+          </div>
         </div>
         <table class="locales">
           <tr>
