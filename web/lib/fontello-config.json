@@ -59,6 +59,12 @@
       "css": "arrow-left",
       "code": 61447,
       "src": "mfglabs"
+    },
+    {
+      "uid": "9755f76110ae4d12ac5f9466c9152031",
+      "css": "book",
+      "code": 59401,
+      "src": "fontawesome"
     }
   ]
 }

@@ -299,6 +299,10 @@ button {
 .criteria a {
   color: #00f;
 }
+.criteria a i {
+  color: #777;
+  margin-right: 3px;
+}
 .locales {
   width: 100%;
   font-size: 16px;
