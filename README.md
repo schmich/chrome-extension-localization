@@ -1,7 +1,9 @@
 # Chrome Extension Localization
 
 Chrome Extension Localization helps you organize and manage the process of localizing your Chrome extension
-via [Travis CI](https://travis-ci.org/) automatic deployments and [GitHub Pages](https://pages.github.com/) hosting. [Try the live example site](https://schmich.github.io/marinara-localization).
+via [Travis CI](https://travis-ci.org/) automatic deployments and [GitHub Pages](https://pages.github.com/) hosting.
+
+[Try the live example site](https://schmich.github.io/marinara-localization) or [read the translation guide](#translation-guide).
 
 ## Overview
 
@@ -192,6 +194,54 @@ Submodule path 'deploy/chrome-extension-localization': checked out 'dab0105375ef
 /src/marinara-localization$ git submodule update --remote chrome-extension-localization
 Submodule path 'chrome-extension-localization': checked out 'dab0105375efef675ee06b943e40d5fcbfc704bd' 
 ```
+
+## Translation Guide
+
+You need a [GitHub account](https://github.com/join) to create pull requests for your translations.
+
+1. Open the project localization website, e.g. https://schmich.github.io/marinara-localization/
+
+2. Select the locale to update or create. If a locale doesn't exist, that means there is no corresponding
+`messages.json` file for it yet. You can be the first to translate for it:
+
+<p align="center"><img src="assets/locale-select.png"/></p>
+
+3. On the translation page, you will see a table of messages used in the extension. As you add and update 
+translations, the app will save your work locally in-browser. Each message has a few fields:
+
+    - *Message ID* is the programmatic ID used in the extension
+    - *en: English* is the source English message
+    - *State* shows any issues with the message (see below)
+    - *es: Spanish* is the editable translation
+
+<p align="center"><img src="assets/add-translation.png"/></p>
+
+4. You can show or hide messages based on their state:
+
+    - *Normal*: Messages without any of the issues below
+    - *Missing*: Messages that have not been translated; they need translating
+    - *Outdated*: Messages with English counterparts that changed since translation; the translation might need updating to reflect the English changes
+    - *Identical*: Messages that are identical to their English counterparts; they might need translating
+
+<p align="center"><img src="assets/filters.png"/></p>
+
+5. Once you have finished adding and updating translations, export your work to a JSON-formatted
+`messages.json` file. This file contains all translations for the locale and is bundled with the extension.
+
+<p align="center"><img src="assets/export.png"/></p>
+
+6. Click the GitHub link to start the pull request process to contribute your translations. If you haven't
+forked the extension repository already, you will be prompted to do so:
+
+<p align="center"><img src="assets/fork.png"/></p>
+
+7. Paste from your clipboard or copy-paste the contents of the downloaded `messages.json` file and propose your changes:
+
+<p align="center"><img src="assets/github-edit-file.png"/></p>
+<p align="center"><img src="assets/github-propose-change.png"/></p>
+<p align="center"><img src="assets/github-compare-changes.png"/></p>
+
+8. That's it! Wait for the maintainer to merge your pull request.
 
 ## License
 
