@@ -30,7 +30,7 @@ The following walkthrough will use `marinara` as the example project name and `s
 
 1. [Create a new GitHub repo](https://github.com/new) called `marinara-localization`. It will serve as the GitHub Pages host for the localization website:
 
-<p align="center"><img src="assets/create-repo.png"/></p>
+<p align="center"><img src="assets/github-create-repo.png"/></p>
 
 2. Clone `marinara-localization`:
 
@@ -58,7 +58,7 @@ The following walkthrough will use `marinara` as the example project name and `s
 
 6. Enable GitHub Pages on the master branch for `marinara-localization` at https://github.com/schmich/marinara-localization/settings:
 
-<p align="center"><img src="assets/enable-pages.png"/></p>
+<p align="center"><img src="assets/github-enable-pages.png"/></p>
 
 7. In your extension source (`marinara`) create a folder called `deploy`:
 
@@ -94,8 +94,8 @@ SHA256:nY5jLr0JFgOZfBp1N/hLPiPj7jIT9K4vGYwT/PubevI Travis CI Deployment Key
 
 11. Add the contents of `deploy_key.pub` as a deployment key for `marinara-localization` at https://github.com/schmich/marinara-localization/settings/keys *(example key shown)*:
 
-<p align="center"><img src="assets/add-deploy-key.png"/></p>
-<p align="center"><img src="assets/deploy-keys.png"/></p>
+<p align="center"><img src="assets/github-add-deploy-key.png"/></p>
+<p align="center"><img src="assets/github-deploy-keys.png"/></p>
 
 12. Install the Travis command-line tool:
 
@@ -207,33 +207,33 @@ You need a [GitHub account](https://github.com/join) to create pull requests for
 <p align="center"><img src="assets/locale-select.png"/></p>
 
 3. On the translation page, you will see a table of messages used in the extension. As you add and update 
-translations, the app will save your work locally in-browser. Each message has a few fields:
+translations, the app will save your work locally in-browser. Each message has a few properties:
 
     - *Message ID* is the programmatic ID used in the extension
     - *en: English* is the source English message
-    - *State* shows any issues with the message (see below)
+    - *State* indicates any issues with the message (see below)
     - *es: Spanish* is the editable translation
 
-<p align="center"><img src="assets/add-translation.png"/></p>
+<p align="center"><img src="assets/locale-add-translation.png"/></p>
 
-4. You can show or hide messages based on their state:
+4. Message states indicate potential translation issues. You can show or hide messages based on these states:
 
-    - *Normal*: Messages without any of the issues below
+    - *Normal*: Messages without any issues
     - *Missing*: Messages that have not been translated; they need translating
     - *Outdated*: Messages with English counterparts that changed since translation; the translation might need updating to reflect the English changes
     - *Identical*: Messages that are identical to their English counterparts; they might need translating
 
-<p align="center"><img src="assets/filters.png"/></p>
+<p align="center"><img src="assets/locale-message-filters.png"/></p>
 
 5. Once you have finished adding and updating translations, export your work to a JSON-formatted
-`messages.json` file. This file contains all translations for the locale and is bundled with the extension.
+`messages.json` file. This file contains all translations for the locale and will be bundled with the extension.
 
-<p align="center"><img src="assets/export.png"/></p>
+<p align="center"><img src="assets/locale-export.png"/></p>
 
 6. Click the GitHub link to start the pull request process to contribute your translations. If you haven't
 forked the extension repository already, you will be prompted to do so:
 
-<p align="center"><img src="assets/fork.png"/></p>
+<p align="center"><img src="assets/github-must-fork.png"/></p>
 
 7. Paste from your clipboard or copy-paste the contents of the downloaded `messages.json` file and propose your changes:
 
@@ -241,7 +241,9 @@ forked the extension repository already, you will be prompted to do so:
 <p align="center"><img src="assets/github-propose-change.png"/></p>
 <p align="center"><img src="assets/github-compare-changes.png"/></p>
 
-8. That's it! Wait for the maintainer to merge your pull request.
+8. That's it! Wait for the maintainer to merge your pull request:
+
+<p align="center"><img src="assets/github-open-pull-requests.png"/></p>
 
 ## License
 
