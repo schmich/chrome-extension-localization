@@ -216,7 +216,9 @@ translations, the app will save your work locally in-browser. Each message has a
 
 <p align="center"><img src="assets/locale-add-translation.png"/></p>
 
-4. Message states indicate potential translation issues. You can show or hide messages based on these states:
+4. Messages can contain placeholders which the extension determines at runtime. For example, the message `Hello, $name$!` has `$name$` as a placeholder. Use the placeholder in your translation, but do not translate the placeholder itself. In this case, the Spanish translation would be `¡Hola, $name$!`.
+
+5. Message states indicate potential translation issues. You can show or hide messages based on these states:
 
     - *Normal*: Messages without any issues
     - *Missing*: Messages that have not been translated; they need translating
@@ -225,23 +227,23 @@ translations, the app will save your work locally in-browser. Each message has a
 
 <p align="center"><img src="assets/locale-message-filters.png"/></p>
 
-5. Once you have finished adding and updating translations, export your work to a JSON-formatted
+6. Once you have finished adding and updating translations, export your work to a JSON-formatted
 `messages.json` file. This file contains all translations for the locale and will be bundled with the extension.
 
 <p align="center"><img src="assets/locale-export.png"/></p>
 
-6. Click the GitHub link to start the pull request process to contribute your translations. If you haven't
+7. Click the GitHub link to start the pull request process to contribute your translations. If you haven't
 forked the extension repository already, you will be prompted to do so:
 
 <p align="center"><img src="assets/github-must-fork.png"/></p>
 
-7. Paste from your clipboard or copy-paste the contents of the downloaded `messages.json` file and propose your changes:
+8. Paste from your clipboard or copy-paste the contents of the downloaded `messages.json` file and propose your changes:
 
 <p align="center"><img src="assets/github-edit-file.png"/></p>
 <p align="center"><img src="assets/github-propose-change.png"/></p>
 <p align="center"><img src="assets/github-compare-changes.png"/></p>
 
-8. That's it! Wait for the maintainer to merge your pull request:
+9. That's it! Wait for the maintainer to merge your pull request:
 
 <p align="center"><img src="assets/github-open-pull-requests.png"/></p>
 
