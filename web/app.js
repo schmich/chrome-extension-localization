@@ -136,12 +136,12 @@ let app = new Vue({
       }
 
       let json = JSON.stringify(messages, null, '  ');
-      let link = document.createElement('a');
-      link.href = 'data:application/json,' + encodeURIComponent(json);
-      link.download = 'messages.json';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      this.downloadJson(json, 'messages.json');
+      try {
+        this.clipboardCopy(json);
+      } catch (e) {
+        // Ignore clipboard errors.
+      }
 
       // Show link for creating/editing messages.json on GitHub.
       const prefix = `https://github.com/${this.state.user}/${this.state.project}`
@@ -151,6 +151,32 @@ let app = new Vue({
       } else {
         this.editUrl = `${prefix}/new/${path}?filename=messages.json`;
       }
+    },
+    downloadJson(json, fileName) {
+      let link = document.createElement('a');
+      link.href = 'data:application/json,' + encodeURIComponent(json);
+      link.download = 'messages.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    clipboardCopy(content) {
+      let input = document.createElement('div');
+      input.innerText = content.trim();
+      input.style.whiteSpace = 'pre';
+      input.style.fontFamily = 'monospace';
+      document.body.appendChild(input);
+
+      let selection = window.getSelection();
+      selection.removeAllRanges();
+
+      let range = document.createRange();
+      range.selectNode(input);
+      selection.addRange(range);
+      document.execCommand('copy');
+
+      selection.removeAllRanges();
+      document.body.removeChild(input);
     },
     loadLocale() {
       // Destroy existing tooltips.

@@ -27,7 +27,7 @@
       <i class="icon-ok"></i> Translations updated from the server.
     </div>
     <div class="popup success" v-if="editUrl">
-      {{ locale.name }} translations exported to messages.json.
+      {{ locale.name }} translations copied to clipboard and downloaded as messages.json.
       <div>
         <a :href="editUrl" target="_blank"><i class="icon-git"></i>{{ locale.exists ? 'Edit' : 'Create' }} File on GitHub</a>
         <button @click="editUrl = null"><i class="icon-cancel"></i>Dismiss</button>
