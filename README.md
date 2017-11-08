@@ -3,7 +3,7 @@
 Chrome Extension Localization helps you organize and manage the process of localizing your Chrome extension
 via [Travis CI](https://travis-ci.org/) automatic deployments and [GitHub Pages](https://pages.github.com/) hosting.
 
-[Try the live example site](https://schmich.github.io/marinara-localization) or [read the translation guide](#translation-guide).
+Try the [live example site](https://schmich.github.io/marinara-localization), read the [translation guide](#translation-guide), or [setup your extension for localization](#setup-guide).
 
 ## Overview
 
@@ -24,6 +24,8 @@ GitHub pull requests for their changes.
 <p align="center"><img src="assets/diagram.png"/></p>
 
 ## Setup Guide
+
+This guide assumes your Chrome extension source is hosted on GitHub and can be integrated with [Travis CI](https://travis-ci.org/). The following steps will get you started with using Chrome Extension Localization to manage your localization efforts.
 
 This tool was created to help localize the [Marinara](https://github.com/schmich/marinara) Chrome extension.
 The following walkthrough will use `marinara` as the example project name and `schmich` as the example user name.
