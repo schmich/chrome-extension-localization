@@ -78,15 +78,18 @@ def message_ordinals(locale, commits)
   lines = `git blame -c #{file}`.lines
 
   keys = json.keys
-  cur = keys.shift
+  current_key = keys.shift
 
+  current_message_id = nil
   ordinals = {}
   lines.each do |line|
-    break if cur.nil?
-    if line =~ /^(.*?)\s+\(.*?\)\s+\"(#{cur})\":.*/
+    if current_key && (line =~ /^(.*?)\s+\(.*?\)\s+\"(#{current_key})\":.*/)
+      current_message_id = current_key.strip
+      current_key = keys.shift
+    elsif current_message_id && (line =~ /^(.*?)\s+\(.*?\)\s+\"message\":/)
       commit = $1.strip.slice(0, 7)
-      ordinals[$2.strip] = commits.index(commit)
-      cur = keys.shift
+      ordinals[current_message_id] = commits.index(commit)
+      current_message_id = nil
     end
   end
 
@@ -131,7 +134,7 @@ def locale_status
     messages ||= {}
 
     outdated = messages.select { |id, _|
-      ordinals[id] < en_ordinals[id]
+      ordinals[id] < (en_ordinals[id] || 0)
     }.map { |e|
       id_to_index[e.first]
     }
