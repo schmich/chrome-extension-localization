@@ -109,6 +109,7 @@ input[type="checkbox"] {
   margin-right: 3px;
   cursor: pointer;
   position: relative;
+  vertical-align: middle;
   top: -2px;
 }
 button {
