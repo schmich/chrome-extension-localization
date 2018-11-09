@@ -2,7 +2,7 @@ require 'json'
 require 'set'
 require 'digest/sha2'
 
-$locales  = {
+$locales = {
   'ar' => 'Arabic',
   'am' => 'Amharic',
   'bg' => 'Bulgarian',
@@ -39,6 +39,7 @@ $locales  = {
   'ms' => 'Malay',
   'nl' => 'Dutch',
   'nb' => 'Norwegian',
+  'no' => 'Norwegian',
   'pl' => 'Polish',
   'pt_PT' => 'Portuguese (Portugal)',
   'pt_BR' => 'Portuguese (Brazil)',
