@@ -84,10 +84,10 @@ def message_ordinals(locale, commits)
   current_message_id = nil
   ordinals = {}
   lines.each do |line|
-    if current_key && (line =~ /^(.*?)\s+\(.*?\)\s+\"(#{current_key})\":.*/)
+    if current_key && (line =~ /^(.*?)\s+\(.*?\)\s*\"(#{current_key})\":.*/)
       current_message_id = current_key.strip
       current_key = keys.shift
-    elsif current_message_id && (line =~ /^(.*?)\s+\(.*?\)\s+\"message\":/)
+    elsif current_message_id && (line =~ /^(.*?)\s+\(.*?\)\s*\"message\":/)
       commit = $1.strip.slice(0, 7)
       ordinals[current_message_id] = commits.index(commit)
       current_message_id = nil
